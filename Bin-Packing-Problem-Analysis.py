@@ -53,19 +53,81 @@ def second_algorithm():
     return sum(abs(cloned_bin.get_remaining_capacity()) for cloned_bin in cloned_bins)
 
 
+def get_i_star(number_of_objects, objects, number_of_bins):
+    i_star = -1
+
+    for i in range(number_of_objects):
+        remanings_sum = sum(objects[i + 1:])
+        quantity = remanings_sum / (number_of_bins - i)
+
+        if objects[i] > quantity:
+            i_star = i
+    
+    return i_star + 1
+
+
+def display_chart(object_history):
+    history = np.array(object_history)
+    fig, ax = plt.subplots(2, 1, figsize=(16, 9))
+    ax[0].axis("off")
+    row_labels = [f"Bins: {n_bins}, Objects: {n_objects}" for n_bins, n_objects in zip(bins_history, history)]
+    table = ax[0].table(cellText=[(first, second, lower_bound) for first, second, lower_bound in results], 
+                        rowLabels=row_labels, 
+                        colLabels=("First Algorithm", "Second Algorithm", "Lower Bound"),
+                        cellLoc="center", 
+                        loc="center",
+                        colWidths=[.2] * 3)
+    ax[1].plot(history, np.array(list(map(lambda element: element[0], results))), marker="o", color="red", label="first algorithm")
+    ax[1].plot(history, np.array(list(map(lambda element: element[1], results))), marker="o", color="blue", label="second algorithm")
+    ax[1].plot(history, np.array(list(map(lambda element: element[2], results))), marker="o", color="green", label="lower bound")
+    ax[1].set_ylabel("Value of the execution")
+    ax[1].set_xlabel("Number of objects to pack")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
 if __name__ == "__main__":
-    number_of_bins = int(input("Insert number of bins: "))
-    number_of_objects = int(input("Insert number of objects to pack: "))
+    results = []
+    objects_history = []
+    bins_history = []
+    
+    number_of_experiments = int(input("How many experiments do you want to do? "))
 
-    size_of_bins = 1 / number_of_bins
-    bins = [Bin(size_of_bins) for _ in range(number_of_bins)]
+    for experiment in range(number_of_experiments):
+        print(f"\nExperiments number {experiment + 1}")
 
-    objects = [random.randrange(1, 1001) for _ in range(number_of_objects)]
-    sum_of_objects_size = sum(objects)
-    objects = [obj / sum_of_objects_size for obj in objects] 
+        number_of_bins = int(input("Insert number of bins: "))
+        number_of_objects = int(input("Insert number of objects to pack: "))
 
-    first_algorithm_result = first_algorithm()
-    second_algorithm_result = second_algorithm()
+        size_of_bins = 1 / number_of_bins
+        bins = [Bin(size_of_bins) for _ in range(number_of_bins)]
 
-    print(f"Value of the execution of the first algorithm: {first_algorithm_result}")
-    print(f"Value of the execution of the second algorithm: {second_algorithm_result}")
+        objects = [random.randrange(1, 1001) for _ in range(number_of_objects)]
+        sum_of_objects_size = sum(objects)
+        objects = [obj / sum_of_objects_size for obj in objects]
+        
+        first_algorithm_result = first_algorithm()
+        second_algorithm_result = second_algorithm()
+
+        temp_objects = sorted(deepcopy(objects))[::-1]
+        
+        if temp_objects[0] < size_of_bins:
+            r_vector = [size_of_bins] * number_of_bins
+        else:
+            i_star = get_i_star(number_of_objects, temp_objects, number_of_bins)
+
+            r_vector = temp_objects[:i_star]
+
+            if i_star < number_of_bins: 
+                remainings_sum = sum(temp_objects[i_star:])
+                value = remainings_sum / (number_of_bins - i_star)
+                r_vector += [value] * (number_of_bins - i_star)
+
+        r_vector_result = sum(abs(size_of_bins - value) for value in r_vector)
+
+        objects_history += [number_of_objects]
+        bins_history += [number_of_bins]
+        results += [(first_algorithm_result, second_algorithm_result, r_vector_result)]
+
+    display_chart(objects_history)
