@@ -62,6 +62,8 @@ def get_i_star(number_of_objects, objects, number_of_bins):
 
         if objects[i] > quantity:
             i_star = i
+        else:
+            break
     
     return i_star + 1
 
