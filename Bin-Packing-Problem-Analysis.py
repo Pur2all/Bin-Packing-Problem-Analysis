@@ -23,7 +23,7 @@ class Bin:
 
 
 def first_algorithm():
-    cloned_objects = sorted(deepcopy(objects))[::-1]
+    cloned_objects = sorted(objects)[::-1]
     bins_heap = deepcopy(bins)
 
     heapq.heapify(bins_heap)
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         first_algorithm_result = first_algorithm()
         second_algorithm_result = second_algorithm()
 
-        temp_objects = sorted(deepcopy(objects))[::-1]
+        temp_objects = sorted(objects)[::-1]
         
         if temp_objects[0] < size_of_bins:
             r_vector = [size_of_bins] * number_of_bins
