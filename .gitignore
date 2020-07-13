@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# PyCharm files
+.idea
+
+# LaTeX files
+*.aux
+*.gz
