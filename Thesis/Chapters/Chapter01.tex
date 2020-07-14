@@ -1,19 +1,52 @@
 \section{Il problema}
 Il problema del bin packing è così formulato:
+
 \begin{quote}
-Dati degli oggetti di volume differente, questi devono essere allocati in un numero finito di contenitori (Bin), ciascuno di una determinata capacità fissa, in modo da ridurre al minimo la quantità di Bin utilizzata.
+	Dati degli oggetti di volume differente, questi devono essere allocati in un numero finito di
+	contenitori (Bin), ciascuno di una determinata capacità fissa, in modo da ridurre al minimo la
+	quantità di Bin utilizzata.\\
 \end{quote}
+
+\noindent
 Un altro modo di formulare il problema è attraverso la programmazione lineare intera:
+
 \begin{quote}	
 	\begin{equation*}
 		\begin{array}{ll@{}ll}
-			\text{min}  & \displaystyle\sum\limits_{i=1}^{n} & y_i \\
-			\text{s.t.} & \displaystyle\sum\limits_{j=1}^{n} & w_j x_{ij} \leq c y_i,  & i=1 ,..., n\\
-		                & \displaystyle\sum\limits_{i=1}^{n} & x_{ij} = 1 & j=1 ,..., n\\
-		             	& 								     & y_{j} \in \{0,1\}\\
-		                & 								     & x_{ij} \in \{0,1\}\\
+			\text{min}  & \displaystyle\sum\limits_{i=1}^{n} & y_i 					  & \\
+			\text{s.t.} & \displaystyle\sum\limits_{j=1}^{n} & w_j x_{ij} \leq c y_i  & \forall i \in \{1, ..., n\}    \\
+		                & \displaystyle\sum\limits_{j=1}^{n} & x_{ij} = 1 			  & \forall i \in \{1, ..., n\}    \\
+		             	& 								     & y_{i} \in \{0,1\}	  & \forall i \in \{1, ..., n\}    \\
+		                & 								     & x_{ij} \in \{0,1\}  	  & \forall i, j \in \{1, ..., n\} \\
 		\end{array}
-\end{equation*}
+	\end{equation*}
+	
+	\begin{equation*}
+		\begin{array}{ll@{}ll}
+	    	\text{dove} &									& \\
+	    				& w_j = \text{peso dell'oggetto j}	& \\ \\
+		    			& c = \text{capacità di ogni Bin}	& \\ \\
+		    			& y_i = 
+		    				\begin{cases}
+    							1 & \text{se il bin } i \text{ è utilizzato} \\
+    							0 & \text{altrimenti}
+							\end{cases}					    & \\ \\
+						& x_{ij} = 
+							\begin{cases}
+    							1 & \text{se l'oggetto } i \text{ è assegnato al Bin } j \\
+    							0 & \text{altrimenti}
+							\end{cases}					    & \\
+		\end{array}
+	\end{equation*}
 	
 \end{quote}
-Questo problema è chiaramente di natura combinatorica, e in particolare appartiene all'insieme dei problemi NP-hard, mentre la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete.
+
+\noindent
+Questo problema è chiaramente di natura combinatorica, e in particolare appartiene all'insieme dei problemi NP-hard, mentre
+la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete.\\ \\
+Ci sono diverse variazioni di questo problema e ognuna ha varie applicazioni, come ad esempio distribuire il carico di
+lavoro su dei server, salvare dei file di varie dimensioni in blocchi di memoria di dimensione fissa o questioni di
+scheduling dove il tempo d'esecuzione di un generico task è il peso dell'oggetto e i contenitori sono le risorse che li
+completano e così via, si possono fare davvero molti esempi di applicazioni, in particolare si può notare che se il numero
+di bins è ristretto a uno solo, e gli oggetti oltre ad avere un peso hanno anche un valore, il problema di massimizzare il
+valore degli oggetti che possono essere contenuti dal bin è nient'altro che il problema dello zaino.
