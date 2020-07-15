@@ -134,3 +134,4 @@ dmypy.json
 # LaTeX files
 *.aux
 *.gz
+*.toc
