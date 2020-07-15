@@ -1,31 +1,27 @@
 \section{Il problema}
 Il problema del bin packing è così formulato:
-
 \begin{quote}
 	Dati degli oggetti di volume differente, questi devono essere allocati in un numero finito di
 	contenitori (Bin), ciascuno di una determinata capacità fissa, in modo da ridurre al minimo la
-	quantità di Bin utilizzata.\\
+	quantità di contenitori utilizzata.\\
 \end{quote}
-
 \noindent
 Un altro modo di formulare il problema è attraverso la programmazione lineare intera:
-
 \begin{quote}	
 	\begin{equation*}
 		\begin{array}{ll@{}ll}
 			\text{min}  & \displaystyle\sum\limits_{i=1}^{n} & y_i 					  & \\
 			\text{s.t.} & \displaystyle\sum\limits_{j=1}^{n} & w_j x_{ij} \leq c y_i  & \forall i \in \{1, ..., n\}    \\
-		                & \displaystyle\sum\limits_{j=1}^{n} & x_{ij} = 1 			  & \forall i \in \{1, ..., n\}    \\
+		                & \displaystyle\sum\limits_{i=1}^{n} & x_{ij} = 1 			  & \forall j \in \{1, ..., n\}    \\
 		             	& 								     & y_{i} \in \{0,1\}	  & \forall i \in \{1, ..., n\}    \\
 		                & 								     & x_{ij} \in \{0,1\}  	  & \forall i, j \in \{1, ..., n\} \\
 		\end{array}
 	\end{equation*}
-	
 	\begin{equation*}
 		\begin{array}{ll@{}ll}
 	    	\text{dove} &									& \\
-	    				& w_j = \text{peso dell'oggetto j}	& \\ \\
-		    			& c = \text{capacità di ogni Bin}	& \\ \\
+	    				& w_j = \text{peso dell'oggetto } j	\text{, } w_j \leq c \text{ } \forall j \in \{1, ..., n\}  & \\ \\ 
+		    			& c = \text{capacità di ogni bin, } c \in N & \\ \\
 		    			& y_i = 
 		    				\begin{cases}
     							1 & \text{se il bin } i \text{ è utilizzato} \\
@@ -33,15 +29,38 @@ Un altro modo di formulare il problema è attraverso la programmazione lineare i
 							\end{cases}					    & \\ \\
 						& x_{ij} = 
 							\begin{cases}
-    							1 & \text{se l'oggetto } i \text{ è assegnato al Bin } j \\
+    							1 & \text{se l'oggetto } j \text{ è assegnato al bin } i \\
     							0 & \text{altrimenti}
 							\end{cases}					    & \\
 		\end{array}
 	\end{equation*}
-	
 \end{quote}
-
 \noindent
+Per esempio:
+\begin{quote}
+	Sia $ S $ un insieme di cardinalità $ n $ contenente i vari oggetti, indicati da un numero intero positivo, e $ s(i) $
+	il volume dei vari oggetti $ \forall i \in S $ e sia $ c $ la capacità di un generico bin. \\
+	Consideriamo la seguente istanza:
+	\begin{equation*}
+		\begin{array}{c}
+			S = \{1, ..., 10\} \text{, quindi } |S| = n = 10 \text{, } c = 15 \\
+	    \end{array}
+	\end{equation*}
+	\begin{equation*}
+	    \begin{array}{cc}
+			s(1) = 15	&	s(6) = 7   \\
+			s(2) = 3	&	s(7) = 13  \\
+			s(3) = 9	&	s(8) = 1   \\
+			s(4) = 5	&	s(9) = 2   \\
+			s(5) = 3	&	s(10) = 11 \\
+		\end{array}
+	\end{equation*}
+	Una soluzione ottima per l'istanza è data dai bins:
+	\begin{align*}
+		B_1 = \{1\} ,\quad B_2 = \{7, 9\} ,\quad B_3 = \{4, 5, 6\} ,\quad B_4 = \{2, 8, 10\} ,\quad B_5 = \{3\}
+	\end{align*}
+	E quindi si può concludere che il numero minimo di bins da utilizzare per quest'istanza è $ 4 $.
+\end{quote}
 Questo problema è chiaramente di natura combinatorica, e in particolare appartiene all'insieme dei problemi NP-hard, mentre
 la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete.\\ \\
 Ci sono diverse variazioni di questo problema e ognuna ha varie applicazioni, come ad esempio distribuire il carico di
