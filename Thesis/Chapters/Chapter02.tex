@@ -1,0 +1,36 @@
+\section{Il problema}
+Questa versione del Bin Packing Problem è una variante di quella precedentemente illustrata, nella quale abbiamo un numero
+fissato di bins, un numero fissato di oggetti molto maggiore di quello dei bins e la capacità di ogni singolo bin può essere ecceduta.
+Inoltre la somma dei volumi dei vari oggetti è pari alla somma delle capacità dei vari bins.
+L'obiettivo è quello di minimizzare la quantità data dalla somma dei valori assoluti delle differenze tra la capacità del bin e la somma del
+volume dei vari oggetti che esso contiene. \\
+Formalmente:
+\begin{quote}
+	Dati $ m $ bins $ \{b_1, ..., b_m\} $ con capacità $ c $ uguale per tutti e $ n $ oggetti $ \{o_1, ..., o_n\} $ con $ n >> m $ e di volume
+	arbitrario (che indicheremo con $ |o_i| \: \forall i \in \{1, ..., n\} $), tali che $ \displaystyle\sum\limits_{i=1}^{n} o_i = mc $,
+	bisogna allocare gli $ n $ oggetti negli $ m $ bins in modo da minimizzare la quantità $ \displaystyle\sum\limits_{i=1}^{m} |c - x_i| $
+	dove $ x_i = \displaystyle\sum\limits_{k \in I_i} |o_k| $ dove $ I_i \: \forall i \in \{1, ..., n\} $ è l'insieme degli indici degli oggetti
+	contenuti nel bin $ i $.
+\end{quote}
+Una possibile formulazione come un problema di programmazione lineare intera è la seguente:
+\begin{quote}	
+	\begin{equation*}
+		\begin{array}{ll@{}ll}
+			\text{min}  & \displaystyle\sum\limits_{i=1}^{m} & |c - \displaystyle\sum\limits_{j=1}^{n} x_{ij}w_j|   & \\
+			\text{s.t.} & \displaystyle\sum\limits_{i=1}^{n} & x_{ij} = 1 			  								& \forall j \in \{1, ..., n\} \\ 
+		                & 								     														& x_{ij} \in \{0,1\}  	  & \forall i, j \in \{1, ..., n\} \\
+		\end{array}
+	\end{equation*}
+	\begin{equation*}
+		\begin{array}{ll@{}ll}
+	    	\text{dove} &																									   & \\
+	    				& w_j = \text{volume dell'oggetto } j	\text{, } w_j \in \mathbb{Z}^+ \: \forall j \in \{1, ..., n\}  & \\ \\ 
+		    			& c = \text{capacità di ogni bin, } c \in \mathbb{N} 												   & \\ \\
+						& x_{ij} = 
+							\begin{cases}
+    							1 & \text{se l'oggetto } j \text{ è assegnato al bin } i \\
+    							0 & \text{altrimenti}
+							\end{cases}					    & \\
+		\end{array}
+	\end{equation*}
+\end{quote}
