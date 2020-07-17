@@ -4,13 +4,35 @@
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 \usepackage{amsmath, amssymb}
+\usepackage[autostyle,italian=guillemets,]{csquotes}
+\usepackage[backend=biber, sorting=none]{biblatex}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[hidelinks]{hyperref}
+
+
+\hypersetup{%
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={black}, %COLORE DEI RIFERIMENTI AL TESTO
+    citecolor={blue}, %COLORE DEI RIFERIMENTI ALLE CITAZIONI
+    urlcolor={blue} %COLORI DEGLI URL
+}
+
+\addbibresource{bibliography.bib}
 
 \begin{document}
+\setcounter{tocdepth}{3}
+\tableofcontents
 
 \chapter{Bin Packing Problem}
 \input{Chapters/Chapter01}
 
 \chapter{Bin Packing Problem con bins estendibili}
 \input{Chapters/Chapter02}
+
+\printbibliography
 
 \end{document}
