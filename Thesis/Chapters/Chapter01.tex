@@ -68,8 +68,7 @@ completano e così via, si possono fare davvero molti esempi di applicazioni, in
 di bins è ristretto a uno solo, e gli oggetti oltre ad avere un peso hanno anche un valore, il problema di massimizzare il
 valore degli oggetti che possono essere contenuti dal bin è nient'altro che il problema dello zaino. \\ \\
 Questo problema è chiaramente di natura combinatorica, e in particolare appartiene all'insieme dei problemi NP-hard, mentre
-la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete ed è così definita in "Computers and
-Intractability":
+la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete ed è così definita \cite{CaI_NP}:
 \begin{quote}
 	Istanza: Insieme finito $ U $ di oggetti, una taglia $ s(u) \in \mathbb{Z}^+ \: \forall u \in U $, una capacità intera
 	per i bins $ B $ e un intero positivo $ K $. \\
@@ -79,6 +78,10 @@ Intractability":
 In particolare è un problema strongly NP-completo e questo può essere provato tramite una riduzione polinomiale da un altro
 problema strongly NP-completo ovvero il 3-partition. \\
 Nonostante ciò comunque è possibile risolvere il problema del bin packing in tempo pseudo-polinomiale per ogni numero di
-bins fissato $ \geq 2 $ (Bin packing with fixed number of bins revisited, Klaus Jansen et al.) e in tempo polinomiale per
+bins fissato $ \geq 2 $ \cite{BinPackingFixedSize} e in tempo polinomiale per
 ogni fissata capacità $ B $ enumerando tutte le possibili $ k^{p(1) + p(2) + ... + p(B)} $ assegnazioni degli oggetti ai
-bins e trovare la più conveniente tramite ricerca esaustiva.
+bins e trovare la più conveniente tramite ricerca esaustiva. \\
+Come conseguenza della classe di complessità di appartenenza del problema è chiaro quindi che bisogna comunque che esso
+venga risolto in un tempo ragionevole, ossia polinomiale, anche nel caso generale, di conseguenza si ricorre ad algoritmi
+di approssimazione adoperando diverse euristiche.
+Esistono comunque algoritmi esatti, come l'MTP \cite{MTP} o il Bin Completion \cite{BinCompletion}.
