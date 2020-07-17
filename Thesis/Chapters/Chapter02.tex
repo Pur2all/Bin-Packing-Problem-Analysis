@@ -7,9 +7,9 @@ volume dei vari oggetti che esso contiene. \\
 Formalmente:
 \begin{quote}
 	Dati $ m $ bins $ \{b_1, ..., b_m\} $ con capacità $ c $ uguale per tutti e $ n $ oggetti $ \{o_1, ..., o_n\} $ con $ n >> m $ e di volume
-	arbitrario (che indicheremo con $ |o_i| \: \forall i \in \{1, ..., n\} $), tali che $ \displaystyle\sum\limits_{i=1}^{n} o_i = mc $,
+	arbitrario (che indicheremo con $ s(o_i) \: \forall i \in \{1, ..., n\} $), tali che $ \displaystyle\sum\limits_{i=1}^{n} s(o_i) = mc $,
 	bisogna allocare gli $ n $ oggetti negli $ m $ bins in modo da minimizzare la quantità $ \displaystyle\sum\limits_{i=1}^{m} |c - x_i| $
-	dove $ x_i = \displaystyle\sum\limits_{k \in I_i} |o_k| $ dove $ I_i \: \forall i \in \{1, ..., n\} $ è l'insieme degli indici degli oggetti
+	dove $ x_i = \displaystyle\sum\limits_{o \in U_i} s(o) $ dove $ U_i \: \forall i \in \{1, ..., m\} $ è l'insieme degli oggetti
 	contenuti nel bin $ i $.
 \end{quote}
 Una possibile formulazione come un problema di programmazione lineare intera è la seguente:
@@ -30,7 +30,57 @@ Una possibile formulazione come un problema di programmazione lineare intera è 
 							\begin{cases}
     							1 & \text{se l'oggetto } j \text{ è assegnato al bin } i \\
     							0 & \text{altrimenti}
-							\end{cases}					    & \\
+							\end{cases}					    																   & \\
 		\end{array}
 	\end{equation*}
 \end{quote}
+
+\section{Due possibili algoritmi}
+Di seguito verranno illustrati due algoritmi di approssimazione che risolvono il problema del bin packing con bins estendibili approssimando
+la soluzione e verranno analizzati i loro comportamenti da un punto di vista sperimentale.
+\subsection{Algoritmo con euristica LPT}
+L'algoritmo si basa sull'euristica Longest Processing Time, che in questo caso potremmo chiamare Most Heavier Object, ed è illustrato dal seguente pseudocodice:
+\begin{algorithm}
+\begin{algorithmic}[1]
+
+\Function{binPackLPT}{$ B , O , s() $}       \Comment{Input: insieme di bins, di oggetti, funzione taglia}
+    \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente $
+    \State $ Q = B $
+
+    \For{$ i = 1; \: i \leq |O|; \: i = i + 1 $}
+        \State $ \text{bin-più-vuoto} \leftarrow $ \Call{extractMax}{$ Q, s() $}
+        \State $ s(\text{bin-più-vuoto}) \leftarrow  s(\text{bin-più-vuoto}) - s(o_i) $
+        \State $ Q \leftarrow Q \cup \{\text{bin-più-vuoto}\} $
+    \EndFor
+    
+    \State \Return $ \displaystyle\sum\limits_{b \in B} |b| $
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Algoritmo con euristica merging sugli oggetti}
+L'algoritmo si basa sull'euristica merging applicata agli oggetti, ed è illustrato nel seguente pseudocodice:
+\begin{algorithm}
+\begin{algorithmic}[1]
+
+\Function{binPackMERGING}{$ B , O , s() $}       \Comment{Input: insieme di bins, di oggetti, funzione taglia}
+    \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente $
+    \State $ Q = O $
+
+    \While{$ |B| \not= |Q| $}
+        \State $ \text{obj-meno-grande1} \leftarrow $ \Call{extractMin}{$ Q, s() $}
+        \State $ \text{obj-meno-grande2} \leftarrow $ \Call{extractMin}{$ Q, s() $}
+        \State $ s(\text{nuovo-obj}) \leftarrow s(\text{obj-meno-grande1}) + s(\text{obj-meno-grande2}) $
+        \State $ Q \leftarrow Q \cup \{\text{nuovo-obj}\} $
+    \EndWhile
+    
+    \For{$ i = 1; \: i \leq |B|; \: i = i + 1 $}
+    	\State $ s(b_i) = s(b_i) - s(q_i) $
+    \EndFor
+    
+    \State \Return $ \displaystyle\sum\limits_{b \in B} |b| $
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
