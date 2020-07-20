@@ -140,3 +140,4 @@ dmypy.json
 *.bcf
 *.bbl
 *.run.xml
+*-blx.bib
