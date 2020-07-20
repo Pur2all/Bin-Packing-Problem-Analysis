@@ -24,13 +24,19 @@ Una possibile formulazione come un problema di programmazione lineare intera è 
 	\begin{equation*}
 		\begin{array}{ll@{}ll}
 	    	\text{dove} &																									   & \\
-	    				& w_j = \text{volume dell'oggetto } j	\text{, } w_j \in \mathbb{Z}^+ \: \forall j \in \{1, ..., n\}  & \\ \\ 
-		    			& c = \text{capacità di ogni bin, } c \in \mathbb{N} 												   & \\ \\
+	    				& w_j = \text{volume dell'oggetto } j	\text{, } w_j \in \mathbb{Z}^+ \: \forall j \in \{1, ..., n\}  & \\ \\
+		    			& c = \text{capacità di ogni bin, } c \in \mathbb{N} 												   & \\
 						& x_{ij} = 
 							\begin{cases}
     							1 & \text{se l'oggetto } j \text{ è assegnato al bin } i \\
     							0 & \text{altrimenti}
 							\end{cases}					    																   & \\
+		\end{array}
+	\end{equation*}
+	\begin{equation*}
+		\begin{array}{c}
+			\text{ed è stata assunta soddisfatta la seguente condizione:} \\
+			\displaystyle\sum\limits_{j=1}^{n} w_j = mc					 \\								  
 		\end{array}
 	\end{equation*}
 \end{quote}
@@ -39,17 +45,23 @@ Una possibile formulazione come un problema di programmazione lineare intera è 
 Di seguito verranno illustrati due algoritmi di approssimazione che risolvono il problema del bin packing con bins estendibili approssimando
 la soluzione e verranno analizzati i loro comportamenti da un punto di vista sperimentale.
 \subsection{Algoritmo con euristica LPT}
-L'algoritmo si basa sull'euristica Longest Processing Time, che in questo caso potremmo chiamare Most Heavier Object, ed è illustrato dal seguente pseudocodice:
+Il primo algoritmo utilizza un'euristica nota per i problemi di scheduling, precisamente l'euristica Longest Processing Time, ovvero
+quella secondo cui si assegnano i job alle risorse in base al loro tempo di esecuzione, precisamente vengono assegnati in ordine non decrescente di 
+tempo di esecuzione alla risorsa più "libera" al fine di minimizzare il \textit{makespan}, ovvero il massimo tempo di utilizzo totale di una risorsa tra le varie.
+Il problema dello scheduling è molto simile, si potrebbe dire equivalente, a questa variante del bin packing. \\
+In questo caso, poiché il problema non è di scheduling ma di bin packing, potremmo chiamare l'euristica Most Big Object e quindi procedere nel
+seguente modo per ottenere una soluzione:
 \begin{algorithm}
 \begin{algorithmic}[1]
 
-\Function{binPackLPT}{$ B , O , s() $}       \Comment{Input: insieme di bins, di oggetti, funzione taglia}
+\Function{binPackLPT}{$ B , O , s() $}
     \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente $
     \State $ Q = B $
 
     \For{$ i = 1; \: i \leq |O|; \: i = i + 1 $}
         \State $ \text{bin-più-vuoto} \leftarrow $ \Call{extractMax}{$ Q, s() $}
-        \State $ s(\text{bin-più-vuoto}) \leftarrow  s(\text{bin-più-vuoto}) - s(o_i) $
+        \State $ \text{bin-più-vuoto} \leftarrow \text{bin-più-vuoto} \cup \{O[i]\} $
+        % \State $ s(\text{bin-più-vuoto}) \leftarrow  s(\text{bin-più-vuoto}) - s(O[i]) $
         \State $ Q \leftarrow Q \cup \{\text{bin-più-vuoto}\} $
     \EndFor
     
@@ -58,6 +70,90 @@ L'algoritmo si basa sull'euristica Longest Processing Time, che in questo caso p
 
 \end{algorithmic}
 \end{algorithm}
+
+\noindent
+L'algoritmo prende in input l'insieme di bins $ B $, la lista di oggetti $ O $ e la funzione taglia $ s() $, dopo aver ordinato gli oggetti in modo
+non decrescente utilizzando il loro peso come metro comparativo procede con l'assegnazione degli oggetti ai bins in base a quale sia quello più
+vuoto al momento dell'assegnazione semplicemente scorrendo la lista di oggetti da sinistra a destra, quindi dal più pesante al meno pesante, ed estraendo
+dall'insieme $ Q $ il bin di taglia (capacità) maggiore, ovvero quello più vuoto, e modificando quindi la capacità di quest'ultimo diminuendola del peso dell'oggetto
+da assegnare, per poi rimetterlo in $ Q $. \\
+
+\paragraph{Analisi dell'algoritmo}\mbox{}\\
+L'istruzione al rigo $ 2 $ prende tempo $ O(n \log{}n) $ dove $ n $ è la lunghezza della lista di oggetti, il for delle righe $ 4 $ - $ 7 $ viene eseguito $ n $
+volte, l'istruzione del rigo $ 5 $ se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo e l'operazione di estrazione del 
+massimo ha complessità $ O(m) $ dove $ m $ è la cardinalità di $ Q $ (quindi il numero di bins) le altre istruzioni all'interno del for prendono tempo costante, e 
+l'espressione nel return alla fine prende tempo $ O(m) $. Quindi la complessità dell'algoritmo in questo caso è $ O(nm) $ (se $ m \geq \log{}n $) per via della 
+ricerca esaustiva che viene fatta $ n $ volte all'interno del for, ma se $ Q $ fosse uno heap l'operazione di estrazione del massimo prenderebbe tempo $ O(\log{}m) $ 
+e quindi la complessità dell'algoritmo diventerebbe $ O(n \log{}n) $, ovvero dominata dall'istruzione $ 2 $.
+
+\paragraph{Esempio di esecuzione}\mbox{}\\
+Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rendere più semplice l'esempio questo non rappresenta una perdita di generalità.
+\begin{quote}
+	Sia $ O $ una lista di lunghezza $ n $ contenente i vari oggetti, e $ s() $
+	la funzione di taglia e sia $ B $ un insieme di cardinalità $ m $ contenente i vari bin ognuno di capacità $ c $. \\
+	Consideriamo la seguente istanza:
+	\begin{equation*}
+		\begin{array}{c}
+			O = \{o_1, ..., o_{10}\} \text{, quindi } |O| = n = 10 \text{ e} \\
+			B = \{b_1, b_2, b_3\} \text{, quindi } |B| = m = 3 \text{, } c = 18
+	    \end{array}
+	\end{equation*}
+	\begin{equation*}
+	    \begin{array}{cc}
+			s(o_1) = 4	&	s(o_6) = 7   \\
+			s(o_2) = 5	&	s(o_7) = 9  \\
+			s(o_3) = 4	&	s(o_8) = 3   \\
+			s(o_4) = 5	&	s(o_9) = 3   \\
+			s(o_5) = 5	&	s(o_{10}) = 9 \\
+		\end{array}
+	\end{equation*}
+	
+	L'esecuzione dell'algoritmo è la seguente:
+	\begin{equation*}
+		\begin{array}{c}
+			O = [o_{10}, o_7, o_6, o_5, o_4, o_2, o_1, o_3, o_8, o_9] \\
+			Q = B 
+		\end{array}
+	\end{equation*}
+	\begin{table}[H]
+  		\begin{center}
+    	\caption{Tabella dell'esecuzione per ogni iterazione}
+    		\begin{tabular}{c|c|c|c}
+      			\textbf{Iterazione} & \textbf{Volume oggetto} & \textbf{Bin più vuoto} & \textbf{Nuova capacità}\\
+      			$ i $ & $ s(O[i]) $ & $ \max s(B_j) $ & $ s(B_j) - s(O[i]) $ \\
+      			\hline
+      			1 & 9 & $ B_1, \: s(B_1) = 18 $ & $ s(B_1) = 18 - 9 = 9 $ \\
+      			2 & 9 & $ B_2, \: s(B_2) = 18 $ & $ s(B_2) = 18 - 9 = 9 $ \\
+      			3 & 7 & $ B_3, \: s(B_3) = 18 $ & $ s(B_3) = 18 - 7 = 11 $ \\
+      			4 & 5 & $ B_3, \: s(B_3) = 11 $ & $ s(B_3) = 11 - 5 = 6 $ \\
+      			5 & 5 & $ B_2, \: s(B_2) = 9 $ & $ s(B_2) = 9 - 5 = 4 $ \\
+      			6 & 5 & $ B_1, \: s(B_1) = 9 $ & $ s(B_1) = 9 - 5 = 4 $ \\
+      			7 & 4 & $ B_3, \: s(B_3) = 6 $ & $ s(B_3) = 6 - 4 = 2 $ \\
+      			8 & 4 & $ B_2, \: s(B_2) = 4 $ & $ s(B_2) = 4 - 4 = 0 $ \\
+      			9 & 3 & $ B_1, \: s(B_1) = 4 $ & $ s(B_1) = 4 - 3 = 1 $ \\
+      			10 & 3 & $ B_3, \: s(B_3) = 2 $ & $ s(B_3) = 2 - 3 = -1 $ \\
+    		\end{tabular}
+  		\end{center}
+	\end{table}
+	Infine risulterà $ B_1 = \{o_{10}, o_2, o_8\}, B_2 = \{o_7, o_4, o_3\}, B_3 = \{o_6, o_5, o_1, o_9\} $
+	quindi $ s(B_1) = 0, s(B_2) = 1, s(B_3) = -1 $ ed il valore tornato dall'algoritmo sarà $ |0| + |1| + |-1| = 2 $.
+\end{quote}
+\noindent
+È da notare che la soluzione ottenuta non è ottima, in quanto assegnando gli oggetti ai bins nel modo seguente si otterrebbe il valore
+della funzione obiettivo uguale a $ 0 $:
+
+\begin{center}
+	$ B_1 = \{o_{10}, o_7\}, B_2 = \{o_5, o_6, o_8, o_9\}, B_3 = \{o_1, o_2, o_3, o_4\} $.
+\end{center}
+
+\noindent
+Ci sono comunque dei casi in cui questo algoritmo trova la soluzione ottima sempre, ovvero quando c'è un oggetto $ o_k $ tale che 
+$ s(o_k) \geq \displaystyle\frac{\sum_{i=1, i \neq k}^n s(o_i)}{m - 1} $. \\ \\ 
+Ad esempio se viene data in input un'istanza con $ m $ bins di capacità $ m $ e $ n = m(m - 1) + 1 $ oggetti e per i primi $ n - 1 $ oggetti 
+$ s(o_i) = 1 \: \forall i \in \{1, ..., n - 1\} $ e per l'ultimo oggetto $ s(o_n) = m $ l'algoritmo troverà la soluzione ottima.
+Infatti l'algoritmo assegnerebbe al primo bin l'oggetto $ o_n $ e i restanti $ m - 1 $ bins sarebbero riempiti ad ogni iterazione 
+con un oggetto di volume unitario $ m $ volte ciascuno, quindi alla fine delle iterazioni si ritroveranno saturati e la soluzione 
+fornita dall'algoritmo avrà valore $ 0 $ che inoltre sarà anche quella ottima.
 
 \subsection{Algoritmo con euristica merging sugli oggetti}
 L'algoritmo si basa sull'euristica merging applicata agli oggetti, ed è illustrato nel seguente pseudocodice:
@@ -68,7 +164,7 @@ L'algoritmo si basa sull'euristica merging applicata agli oggetti, ed è illustr
     \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente $
     \State $ Q = O $
 
-    \While{$ |B| \not= |Q| $}
+    \While{$ |B| \neq |Q| $}
         \State $ \text{obj-meno-grande1} \leftarrow $ \Call{extractMin}{$ Q, s() $}
         \State $ \text{obj-meno-grande2} \leftarrow $ \Call{extractMin}{$ Q, s() $}
         \State $ s(\text{nuovo-obj}) \leftarrow s(\text{obj-meno-grande1}) + s(\text{obj-meno-grande2}) $
