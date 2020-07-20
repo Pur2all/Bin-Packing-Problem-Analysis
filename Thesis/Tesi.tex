@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 \usepackage{amsmath, amssymb}
+\usepackage{float}
 \usepackage[autostyle,italian=guillemets,]{csquotes}
 \usepackage[backend=biber, sorting=none]{biblatex}
 \usepackage{algorithm}
@@ -11,7 +12,7 @@
 \usepackage[hidelinks]{hyperref}
 
 
-\hypersetup{%
+\hypersetup{
     pdfpagemode={UseOutlines},
     bookmarksopen,
     pdfstartview={FitH},
@@ -20,6 +21,8 @@
     citecolor={blue}, %COLORE DEI RIFERIMENTI ALLE CITAZIONI
     urlcolor={blue} %COLORI DEGLI URL
 }
+
+\restylefloat{table}
 
 \addbibresource{bibliography.bib}
 
