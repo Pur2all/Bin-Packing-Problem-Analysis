@@ -1,4 +1,11 @@
 \section{Il problema}
+Spesso ci si può ritrovare a dover risolvere problemi in cui si devono disporre delle cose in contenitori al fine
+di utilizzarne meno possibile, ad esempio se si deve prendere un aereo bisogna organizzare tutte le proprie cose in delle
+valigie da portare con sé, valigie che ovviamente avranno un costo di trasporto, per cui si è interessati ad
+utilizzare il minimo numero di valigie al fine di spendere il meno possibile per i bagagli. Questa è proprio una
+classica applicazione del problema del bin packing, un problema che è più frequente di quanto si immagini.
+
+\subsection{Formulazione}
 Il problema del bin packing è così formulato:
 \begin{quote}
 	Dati degli oggetti di volume differente, questi devono essere allocati in un numero finito di
@@ -61,13 +68,9 @@ In modo da rendere più chiara la comprensione viene fornito un esempio:
 	\end{align*}
 	E quindi si può concludere che il numero minimo di bins da utilizzare per quest'istanza è $ 5 $.
 \end{quote}
-Ci sono diverse variazioni di questo problema e ognuna ha varie applicazioni, come ad esempio distribuire il carico di
-lavoro su dei server, salvare dei file di varie dimensioni in blocchi di memoria di dimensione fissa o questioni di
-scheduling dove il tempo d'esecuzione di un generico task è il peso dell'oggetto e i contenitori sono le risorse che li
-completano e così via, si possono fare davvero molti esempi di applicazioni, in particolare si può notare che se il numero
-di bins è ristretto a uno solo, e gli oggetti oltre ad avere un peso hanno anche un valore, il problema di massimizzare il
-valore degli oggetti che possono essere contenuti dal bin è nient'altro che il problema dello zaino. \\ \\
-Questo problema è chiaramente di natura combinatorica, e in particolare appartiene all'insieme dei problemi NP-hard, mentre
+
+\subsection{Difficoltà}
+Questo problema è chiaramente di natura combinatoria, e in particolare appartiene all'insieme dei problemi NP-hard, mentre
 la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete ed è così definita \cite{CaI_NP}:
 \begin{quote}
 	Istanza: Insieme finito $ U $ di oggetti, una taglia $ s(u) \in \mathbb{Z}^+ \: \forall u \in U $, una capacità intera
@@ -75,13 +78,50 @@ la versione di decisione del problema fa parte dell'insieme dei problemi NP-comp
 	Domanda: Esiste una partizione di $ U $ in insiemi disgiunti $ U_1, U_2, ..., U_k $ tale che la somma delle taglie degli
 	oggetti in ogni $ U_i $ è $ \leq B $.
 \end{quote}
-In particolare è un problema strongly NP-completo e questo può essere provato tramite una riduzione polinomiale da un altro
-problema strongly NP-completo ovvero il 3-partition. \\
+In particolare è un problema strongly NP-complete e questo può essere provato tramite una riduzione polinomiale da un altro
+problema strongly NP-complete ovvero il 3-partition. \\
 Nonostante ciò comunque è possibile risolvere il problema del bin packing in tempo pseudo-polinomiale per ogni numero di
 bins fissato $ \geq 2 $ \cite{BinPackingFixedSize} e in tempo polinomiale per
 ogni fissata capacità $ B $ enumerando tutte le possibili $ k^{p(1) + p(2) + ... + p(B)} $ assegnazioni degli oggetti ai
 bins e trovare la più conveniente tramite ricerca esaustiva. \\
 Come conseguenza della classe di complessità di appartenenza del problema è chiaro quindi che bisogna comunque che esso
-venga risolto in un tempo ragionevole, ossia polinomiale, anche nel caso generale, di conseguenza si ricorre ad algoritmi
+venga risolto in un tempo ragionevole, ossia polinomiale, anche nel caso generale, quindi si ricorre ad algoritmi
 di approssimazione adoperando diverse euristiche.
 Esistono comunque algoritmi esatti, come l'MTP \cite{MTP} o il Bin Completion \cite{BinCompletion}.
+
+
+\section{Variazioni e applicazioni}
+Ci sono diverse variazioni di questo problema, ognuna con varie applicazioni, tra le più famose troviamo quella
+del bin packing a più dimensioni, il packing by weight e il VM packing. Ovviamente ne esistono molte altre ma di seguito 
+verranno descritte quelle precedentemente elencate per dare un'idea della ricorrenza di questo problema, nel prossimo 
+capitolo si parlerà della variante con bins estendibili nel dettaglio.
+
+\subsection{N-dimensional packing}
+Questa variante del problema classico occorre ogni volta che bisogna immagazzinare oggetti in contenitori non in base al
+loro volume ma in base alle loro misure in relazione alle dimensioni considerate nel problema. Ad esempio, se si vogliono
+riempire dei container con oggetti da spedire e ogni container ha un costo per essere spedito si vuole fare in modo
+che vengano usati meno container possibili, questo è una classica applicazione di 3-dimensional packing, dove appunto si vuole
+minimizzare il numero di container utilizzati e assegnare gli oggetti ai container in base alle loro dimensioni.
+
+\subsection{Packing by weight}
+In questa variante anziché assegnare gli oggetti in base al loro volume si assegnano in base al loro peso. Si potrebbe fare un
+esempio analogo a quello del N-dimensional packing, ovvero se bisogna spedire della merce, e questa merce deve essere trasportata
+da dei camion, è risaputo che ogni camion può trasportare merce il cui peso totale è al massimo uguale ad una certa soglia, quindi 
+l'obiettivo sarà quello di minimizzare i camion da utilizzare riempendoli con merce il cui peso totale non superi quella di tolleranza
+del generico camion.
+
+\subsection{VM packing}
+Questo problema prende il nome direttamente dal suo caso di utilizzo maggiore, ovvero il packing delle pagine di memoria
+condivise da delle Virtual Machines su uno stesso server.\\
+In pratica in questa variante gli oggetti possono condividere il loro spazio quando sono contenuti nello stesso bin, quindi occupano
+meno spazio quando sono contenuti insieme che quando sono in bin diversi poiché aumenterebbero lo spazio occupato 
+per colpa della loro taglia individuale. L'esempio di applicazione è quello già menzionato, ovvero se ci sono più Virtual Machines
+su un server si vuole ridurre la loro occupazione di memoria quindi si può pensare di condividere lo spazio riguardante le pagine di memoria
+che le VMs utilizzano e se più VMs richiedono la stessa pagina questa non avrà bisogno di essere replicata ma solo referenziata,
+quindi l'obiettivo è quello di minimizzare i blocchi di memoria occupata considerando il fatto che determinate pagine possono
+condividere spazio tra loro.
+
+\subsection{Nota}
+Si può notare che se il numero di bins è ristretto a uno solo, e gli oggetti oltre ad avere un peso hanno anche un valore, il 
+problema di massimizzare il valore degli oggetti che possono essere contenuti dal bin è nient'altro che il problema dello zaino 0-1. \\
+In generale tutti i cosiddetti \textit{Knapsack Problems} possono essere visti come casi speciali del Bin Packing.
