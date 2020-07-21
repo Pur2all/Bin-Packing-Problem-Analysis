@@ -1,16 +1,20 @@
 \section{Il problema}
-Questa versione del Bin Packing Problem è una variante di quella precedentemente illustrata, nella quale abbiamo un numero
+Nell'ambito dell'informatica, precisamente quando si parla di sistemi distribuiti e concorrenza, nasce il problema
+del bilanciamento del carico, ovvero ridurre il carico di lavoro per le risorse distribuendolo tra le altre disponibili, questo 
+non è altro che una variante del problema del bin packing di cui segue la formulazione.
+
+\subsection{Formulazione}
+Questa versione del Bin Packing Problem è una variante del problema precedentemente illustrato nel primo capitolo, nella quale abbiamo un numero
 fissato di bins, un numero fissato di oggetti molto maggiore di quello dei bins e la capacità di ogni singolo bin può essere ecceduta.
 Inoltre la somma dei volumi dei vari oggetti è pari alla somma delle capacità dei vari bins.
 L'obiettivo è quello di minimizzare la quantità data dalla somma dei valori assoluti delle differenze tra la capacità del bin e la somma del
 volume dei vari oggetti che esso contiene. \\
 Formalmente:
 \begin{quote}
-	Dati $ m $ bins $ \{b_1, ..., b_m\} $ con capacità $ c $ uguale per tutti e $ n $ oggetti $ \{o_1, ..., o_n\} $ con $ n >> m $ e di volume
+	Dati $ m $ bins $ \{B_1, ..., B_m\} $ con capacità $ c $ uguale per tutti e $ n $ oggetti $ \{o_1, ..., o_n\} $ con $ n >> m $ e di volume
 	arbitrario (che indicheremo con $ s(o_i) \: \forall i \in \{1, ..., n\} $), tali che $ \displaystyle\sum\limits_{i=1}^{n} s(o_i) = mc $,
 	bisogna allocare gli $ n $ oggetti negli $ m $ bins in modo da minimizzare la quantità $ \displaystyle\sum\limits_{i=1}^{m} |c - x_i| $
-	dove $ x_i = \displaystyle\sum\limits_{o \in U_i} s(o) $ dove $ U_i \: \forall i \in \{1, ..., m\} $ è l'insieme degli oggetti
-	contenuti nel bin $ i $.
+	dove $ x_i = \displaystyle\sum\limits_{o \in B_i} s(o) \: \forall i \in \{1, ..., m\} $.
 \end{quote}
 Una possibile formulazione come un problema di programmazione lineare intera è la seguente:
 \begin{quote}	
@@ -25,7 +29,7 @@ Una possibile formulazione come un problema di programmazione lineare intera è 
 		\begin{array}{ll@{}ll}
 	    	\text{dove} &																									   & \\
 	    				& w_j = \text{volume dell'oggetto } j	\text{, } w_j \in \mathbb{Z}^+ \: \forall j \in \{1, ..., n\}  & \\ \\
-		    			& c = \text{capacità di ogni bin, } c \in \mathbb{N} 												   & \\
+		    			& c = \text{capacità di ogni bin, } c \in \mathbb{N} 												   & \\ \\
 						& x_{ij} = 
 							\begin{cases}
     							1 & \text{se l'oggetto } j \text{ è assegnato al bin } i \\
@@ -41,17 +45,19 @@ Una possibile formulazione come un problema di programmazione lineare intera è 
 	\end{equation*}
 \end{quote}
 
+
 \section{Due possibili algoritmi}
 Di seguito verranno illustrati due algoritmi di approssimazione che risolvono il problema del bin packing con bins estendibili approssimando
 la soluzione e verranno analizzati i loro comportamenti da un punto di vista sperimentale.
+
 \subsection{Algoritmo con euristica LPT}
-Il primo algoritmo utilizza un'euristica nota per i problemi di scheduling, precisamente l'euristica Longest Processing Time, ovvero
+Il primo algoritmo utilizza un'euristica nota per i problemi di scheduling multiprocessore, precisamente l'euristica Longest Processing Time, ovvero
 quella secondo cui si assegnano i job alle risorse in base al loro tempo di esecuzione, precisamente vengono assegnati in ordine non decrescente di 
 tempo di esecuzione alla risorsa più "libera" al fine di minimizzare il \textit{makespan}, ovvero il massimo tempo di utilizzo totale di una risorsa tra le varie.
-Il problema dello scheduling è molto simile, si potrebbe dire equivalente, a questa variante del bin packing. \\
+Il problema dello scheduling multiprocessore è molto simile, si potrebbe dire equivalente, a questa variante del bin packing. \\
 In questo caso, poiché il problema non è di scheduling ma di bin packing, potremmo chiamare l'euristica Most Big Object e quindi procedere nel
 seguente modo per ottenere una soluzione:
-\begin{algorithm}
+\begin{algorithm}[H]
 \begin{algorithmic}[1]
 
 \Function{binPackLPT}{$ B , O , s() $}
@@ -73,17 +79,18 @@ seguente modo per ottenere una soluzione:
 
 \noindent
 L'algoritmo prende in input l'insieme di bins $ B $, la lista di oggetti $ O $ e la funzione taglia $ s() $, dopo aver ordinato gli oggetti in modo
-non decrescente utilizzando il loro peso come metro comparativo procede con l'assegnazione degli oggetti ai bins in base a quale sia quello più
-vuoto al momento dell'assegnazione semplicemente scorrendo la lista di oggetti da sinistra a destra, quindi dal più pesante al meno pesante, ed estraendo
-dall'insieme $ Q $ il bin di taglia (capacità) maggiore, ovvero quello più vuoto, e modificando quindi la capacità di quest'ultimo diminuendola del peso dell'oggetto
-da assegnare, per poi rimetterlo in $ Q $. \\
+non decrescente utilizzando il loro volume come metro comparativo procede con l'assegnazione degli oggetti ai bins in base a quale sia quello più
+vuoto al momento dell'assegnazione semplicemente scorrendo la lista di oggetti da sinistra a destra, quindi dal più voluminoso al meno voluminoso, ed estraendo
+dall'insieme $ Q $ il bin di taglia (capacità) maggiore, ovvero quello più vuoto, e modificando quindi implicitamente la capacità di quest'ultimo diminuendola
+del peso dell'oggetto da assegnare, per poi rimetterlo in $ Q $. Infine ritorna il valore a cui si è interessati. 
 
-\paragraph{Analisi dell'algoritmo}\mbox{}\\
+\paragraph{Analisi della complessità dell'algoritmo}\mbox{}\\
 L'istruzione al rigo $ 2 $ prende tempo $ O(n \log{}n) $ dove $ n $ è la lunghezza della lista di oggetti, il for delle righe $ 4 $ - $ 7 $ viene eseguito $ n $
-volte, l'istruzione del rigo $ 5 $ se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo e l'operazione di estrazione del 
-massimo ha complessità $ O(m) $ dove $ m $ è la cardinalità di $ Q $ (quindi il numero di bins) le altre istruzioni all'interno del for prendono tempo costante, e 
-l'espressione nel return alla fine prende tempo $ O(m) $. Quindi la complessità dell'algoritmo in questo caso è $ O(nm) $ (se $ m \geq \log{}n $) per via della 
-ricerca esaustiva che viene fatta $ n $ volte all'interno del for, ma se $ Q $ fosse uno heap l'operazione di estrazione del massimo prenderebbe tempo $ O(\log{}m) $ 
+volte, l'istruzione del rigo $ 5 $, se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo, quindi l'operazione di estrazione del 
+massimo ha complessità $ \Theta(m) $ dove $ m $ è la cardinalità di $ Q $ (quindi il numero di bins), le altre istruzioni all'interno del for prendono tempo costante, e 
+l'espressione nel return alla fine prende tempo $ \Theta(m) $. Quindi la complessità dell'algoritmo in questo caso è $ O(nm) $ (se $ m \geq \log{}n $) per via della 
+ricerca esaustiva che viene fatta $ n $ volte all'interno del for, ma se $ Q $ fosse uno heap l'operazione di estrazione del massimo prenderebbe tempo $ \Theta(\log{}m) $, 
+quella di inserimento in $ Q $ prenderebbe anch'essa tempo $ \Theta(\log{}m) $ ma se ne trae vantaggio perché la complessità del for diventerebbe $ O(n \log{}m) $ che è minore di $ O(nm) $
 e quindi la complessità dell'algoritmo diventerebbe $ O(n \log{}n) $, ovvero dominata dall'istruzione $ 2 $.
 
 \paragraph{Esempio di esecuzione}\mbox{}\\
@@ -95,7 +102,7 @@ Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rende
 	\begin{equation*}
 		\begin{array}{c}
 			O = \{o_1, ..., o_{10}\} \text{, quindi } |O| = n = 10 \text{ e} \\
-			B = \{b_1, b_2, b_3\} \text{, quindi } |B| = m = 3 \text{, } c = 18
+			B = \{B_1, B_2, B_3\} \text{, quindi } |B| = m = 3 \text{, } c = 18
 	    \end{array}
 	\end{equation*}
 	\begin{equation*}
@@ -117,7 +124,7 @@ Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rende
 	\end{equation*}
 	\begin{table}[H]
   		\begin{center}
-    	\caption{Tabella dell'esecuzione per ogni iterazione}
+    	\caption{Esecuzione per ogni iterazione}
     		\begin{tabular}{c|c|c|c}
       			\textbf{Iterazione} & \textbf{Volume oggetto} & \textbf{Bin più vuoto} & \textbf{Nuova capacità}\\
       			$ i $ & $ s(O[i]) $ & $ \max s(B_j) $ & $ s(B_j) - s(O[i]) $ \\
@@ -156,23 +163,25 @@ con un oggetto di volume unitario $ m $ volte ciascuno, quindi alla fine delle i
 fornita dall'algoritmo avrà valore $ 0 $ che inoltre sarà anche quella ottima.
 
 \subsection{Algoritmo con euristica merging sugli oggetti}
-L'algoritmo si basa sull'euristica merging applicata agli oggetti, ed è illustrato nel seguente pseudocodice:
-\begin{algorithm}
+Questo secondo algoritmo utilizza un'euristica basata sul merging degli oggetti che si basa sull'idea di rendere il numero di oggetti e di
+bins uguale per poi assegnarne ognuno in modo arbitrario a un bin, per avere che i numeri di oggetti e di bins coincidano fonde insieme gli oggetti
+con volume minore in modo da crearne uno nuovo il cui volume è la somma di quelli che lo compongono.\\
+Per avere una soluzione quindi si può procedere nel seguente modo:
+\begin{algorithm}[H]
 \begin{algorithmic}[1]
 
-\Function{binPackMERGING}{$ B , O , s() $}       \Comment{Input: insieme di bins, di oggetti, funzione taglia}
-    \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente $
+\Function{binPackMERGING}{$ B , O , s() $}
     \State $ Q = O $
 
     \While{$ |B| \neq |Q| $}
         \State $ \text{obj-meno-grande1} \leftarrow $ \Call{extractMin}{$ Q, s() $}
         \State $ \text{obj-meno-grande2} \leftarrow $ \Call{extractMin}{$ Q, s() $}
-        \State $ s(\text{nuovo-obj}) \leftarrow s(\text{obj-meno-grande1}) + s(\text{obj-meno-grande2}) $
+        \State $ \text{nuovo-obj} \leftarrow \text{obj-meno-grande1} \cup \text{obj-meno-grande2} $
         \State $ Q \leftarrow Q \cup \{\text{nuovo-obj}\} $
     \EndWhile
     
     \For{$ i = 1; \: i \leq |B|; \: i = i + 1 $}
-    	\State $ s(b_i) = s(b_i) - s(q_i) $
+    	\State $ B_i = B_i \cup \{q_i\} $
     \EndFor
     
     \State \Return $ \displaystyle\sum\limits_{b \in B} |b| $
@@ -180,3 +189,75 @@ L'algoritmo si basa sull'euristica merging applicata agli oggetti, ed è illustr
 
 \end{algorithmic}
 \end{algorithm}
+
+\noindent
+L'algoritmo prende in input l'insieme di bins $ B $, la lista di oggetti $ O $ e la funzione taglia $ s() $, dopo aver assegnato gli oggetti della lista $ O $
+all'insieme $ Q $ procede con l'operazione di merging estraendo dall'insieme $ Q $ i due oggetti con volume minore per poi unirli creando un nuovo oggetto, che
+avrà come volume la somma dei volumi degli altri due, e inserirlo in $ Q $, questo fin quando non risulta $ n = m $ ($ n $ numero di oggetti e $ m $ numero di bins). 
+Una volta terminata l'operazione di merging si procede con l'assegnazione degli oggetti ai bin in maniera arbitraria e infine viene ritornato il valore a cui si è interessati.
+
+\paragraph{Analisi della complessità dell'algoritmo}\mbox{}\\
+L'istruzione al rigo $ 2 $  prende tempo costante, il while delle righe $ 4 $ - $ 8 $ viene eseguito 
+$ n - m $ volte, le istruzioni delle righe $ 5 $ e $ 6 $, se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo, quindi l'operazione di 
+estrazione del minimo ha complessità $ \Theta(n) $, le altre istruzioni all'interno del while prendono tempo costante, il for delle righe $ 9 $ - $ 10 $ viene eseguito 
+$ m $ volte e l'istruzione al suo interno prende tempo costante, infine l'espressione del return prende tempo $ \Theta(m) $. Quindi la complessità dell'algoritmo
+in questo caso è $ O(n(n - m)) $ per via della ricerca esaustiva che viene fatta $ n - m $ volte all'interno del while, ma se $ Q $ fosse uno heap l'operazione di 
+estrazione del minimo prenderebbe tempo $ \Theta(\log{}n) $, quella di inserimento in $ Q $ prenderebbe anch'essa tempo $ \Theta(\log{}n) $ ma se ne trae vantaggio
+perché la complessità del while diventerebbe $ O((n - m) \log{}n) $ che è minore di $ O(n(n - m)) $ e quindi la complessità dell'algoritmo diventerebbe proprio questa,
+ovvero dominata dalla ripetizione delle istruzioni all'interno del while.
+
+\paragraph{Esempio di esecuzione}\mbox{}\\
+Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rendere più semplice l'esempio questo non rappresenta una perdita di generalità.
+\begin{quote}
+	Sia $ O $ una lista di lunghezza $ n $ contenente i vari oggetti, e $ s() $
+	la funzione di taglia e sia $ B $ un insieme di cardinalità $ m $ contenente i vari bin ognuno di capacità $ c $. \\
+	Consideriamo la seguente istanza:
+	\begin{equation*}
+		\begin{array}{c}
+			O = \{o_1, ..., o_{10}\} \text{, quindi } |O| = n = 10 \text{ e} \\
+			B = \{B_1, B_2, B_3\} \text{, quindi } |B| = m = 3 \text{, } c = 18
+	    \end{array}
+	\end{equation*}
+	\begin{equation*}
+	    \begin{array}{cc}
+			s(o_1) = 4	&	s(o_6) = 7   \\
+			s(o_2) = 5	&	s(o_7) = 9  \\
+			s(o_3) = 4	&	s(o_8) = 3   \\
+			s(o_4) = 5	&	s(o_9) = 3   \\
+			s(o_5) = 5	&	s(o_{10}) = 9 \\
+		\end{array}
+	\end{equation*}
+	
+	L'esecuzione dell'algoritmo è la seguente:
+	\begin{equation*}
+		\begin{array}{c}
+			Q = O 
+		\end{array}
+	\end{equation*}
+	\begin{table}[H]
+  		\begin{center}
+    	\caption{Esecuzione per ogni iterazione del while}
+    		\begin{tabular}{c|c|c|c}
+      			\textbf{Iterazione} & \textbf{Oggetto}		  					 & \textbf{Oggetto}											& \textbf{Nuovo oggetto} \\
+      								& \textbf{meno grande 1}  					 & \textbf{meno grande 2} 									& \\
+      			\hline
+      			1 					& $ o_9, \: s(o_9) = 3 $  					 & $ o_8, \: s(o_8) = 3 $ 									& $ o_{9 \cup 8}, \: s(o_{9 \cup 8}) = 6 $ \\
+      			2 					& $ o_3, \: s(o_3) = 4 $  					 & $ o_1, \: s(o_1) = 4 $ 									& $ o_{3 \cup 1}, \: s(o_{3 \cup 1}) = 8 $ \\
+      			3 					& $ o_2, \: s(o_2) = 5 $  					 & $ o_4, \: s(o_4) = 5 $ 									& $ o_{2 \cup 4}, \: s(o_{2 \cup 4}) = 10 $ \\
+      			4 					& $ o_5, \: s(o_5) = 5 $  					 & $ o_{9 \cup 8}, \: s(o_{9 \cup 8}) = 6 $ 				& $ o_{5 \cup 9 \cup 8}, \: s(o_{5 \cup 9 \cup 8}) = 11 $ \\
+      			5 					& $ o_6, \: s(o_6) = 7 $  					 & $ o_{3 \cup 1}, \: s(o_{3 \cup 1}) = 8 $ 				& $ o_{6 \cup 3 \cup 1}, \: s(o_{6 \cup 3 \cup 1}) = 15 $ \\
+      			6 					& $ o_7, \: s(o_7) = 9 $  					 & $ o_{10}, \: s(o_{10}) = 9 $ 							& $ o_{7 \cup 10}, \: s(o_{7 \cup 10}) = 18 $\\
+      			7 					& $ o_{2 \cup 4}, \: s(o_{2 \cup 4}) = 10 $  & $ o_{5 \cup 9 \cup 8}, \: s(o_{5 \cup 9 \cup 8}) = 11 $  & $ o_{2 \cup 4 \cup 5 \cup 9 \cup 8}, \: s(o_{2 \cup 4 \cup 5 \cup 9 \cup 8}) = 21 $ \\
+    		\end{tabular}
+  		\end{center}
+	\end{table}
+	Infine risulterà $ B_1 = \{o_{6 \cup 3 \cup 1}\}, B_2 = \{o_{7 \cup 10}\}, B_3 = \{o_{2 \cup 4 \cup 5 \cup 9 \cup 8}\} $
+	quindi $ s(B_1) = 3, s(B_2) = 0, s(B_3) = -3 $ ed il valore tornato dall'algoritmo sarà $ |3| + |0| + |-3| = 6 $.
+\end{quote}
+\noindent
+È da notare che la soluzione ottenuta non è ottima, in quanto unendo gli oggetti e assegnandoli ai bins nel modo seguente si otterrebbe il valore
+della funzione obiettivo uguale a $ 0 $:
+
+\begin{center}
+	$ B_1 = \{o_{10 \cup 7}\}, B_2 = \{o_{5 \cup 6 \cup 8 \cup 9}\}, B_3 = \{o_{1 \cup 2 \cup 3 \cup 4}\} $.
+\end{center}
