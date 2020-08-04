@@ -71,7 +71,7 @@ def calculate_size_of_bins(objects, number_of_bins):
 def get_i_star(number_of_objects, objects, number_of_bins):
     i_star = -1
 
-    for i in range(number_of_bins):
+    for i in range(number_of_bins - 1):
         remanings_sum = sum(objects[i + 1:])
         quantity = remanings_sum / (number_of_bins - (i + 1))
 
