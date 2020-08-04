@@ -1,0 +1,97 @@
+\section{Il metodo}
+Per confrontare i due algoritmi si è proceduto in modo sperimentale, implementando un programma che producesse
+un'istanza per il problema per poi essere eseguita su entrambi gli algoritmi e produrre un grafico al fine di 
+analizzare i risultati dati. 
+
+\subsection{Generazione degli oggetti e dei bins}
+Come prima cosa, dopo aver fissato il numero $ n $ di oggetti e il numero $ m $ di bins, è stato necessario generare le rispettive taglie
+in base a qualche criterio in modo che rispettassero le condizioni del problema, ovvero che la somma delle taglie degli oggetti 
+deve essere uguale alla somma delle taglie dei bins.
+
+\subsubsection{Una prima soluzione}
+La prima soluzione sviluppata per fare in modo che gli oggetti e i bins generati rispettassero le condizioni del problema
+è stata quella di scegliere la taglia degli $ m $ bins uguale a $ 1/m $ in modo che la loro somma sia pari a $ 1 $, mentre
+per gli oggetti si è proceduto nel seguente modo:
+\begin{quote}
+	- Si generano $ n $ numeri $ x_i \: \forall i \in \{1, ..., n\} $ in modo che ogni numero sia preso con probabilità 
+	uniforme in un intervallo $ [1, M] $. \\
+	- Ogni oggetto $ o_i $ avrà taglia pari a $ \displaystyle\frac{x_i}{\sum_{j=1}^n x_j} \: \forall i \in \{1, ..., n\} $.
+\end{quote}
+Ovvero si è fatto in modo che la somma degli oggetti fosse normalizzata ad $ 1 $.
+
+\paragraph{I problemi di questa soluzione}\mbox{}\\
+Nonostante questo criterio di generazione sembri essere buono ai fini degli esperimenti esso comporta dei problemi una volta
+realizzato su calcolatore, in quanto così facendo le taglie degli oggetti assumono valori molto piccoli, valori che non vengono
+sentiti nella somma tra le varie taglie, e di conseguenza falsano i risultati. Non è possibile fare un confronto tra i due algoritmi
+in quanto non effettuano le operazioni nello stesso ordine, un numero potrebbe essere sommato prima o dopo ad un altro in base all'
+algoritmo eseguito, e quindi potrebbe amplificare o meno errori di calcolo, inoltre i numeri generati con questo metodo sono
+anche soggetti ad arrotondamenti e troncamenti vari al crescere di $ n $ e quindi si perde precisione.
+
+
+\subsubsection{Una seconda soluzione}
+Visti i problemi della prima soluzione illustrata si è cercato di ridurre gli errori dovuti a numeri troppo piccoli adoperando
+una tecnica diversa per la generazione degli oggetti ma simile alla prima, ovvero anziché normalizzare a $ 1 $ la somma dei bins 
+e quella degli oggetti si è preferito dare una capacità fissa ai bins uguale per tutti e generare le taglie degli oggetti nel
+seguente modo:
+\begin{quote}
+	- Si generano $ n $ numeri $ x_i \: \forall i \in \{1, ..., n\} $ in modo che ogni numero sia preso con probabilità 
+	uniforme in un intervallo $ [1, M] $. \\
+	- Ogni oggetto $ o_i $ avrà taglia pari a $ \displaystyle\frac{x_i}{\sum_{j=1}^n x_j}cm \: \forall i \in \{1, ..., n\} $. 
+\end{quote}
+Ovvero si è fatto in modo che la somma degli oggetti fosse normalizzata a $ cm $ dove $ c $ è la capacità fissata
+di ogni bin e $ m $ il numero di bins.
+
+\paragraph{I problemi di questa soluzione}\mbox{}\\
+Nonostante in questo caso si lavori con numeri più grandi anche questa soluzione come la precedente, anche se di meno, comporta problemi relativi
+alla somma effettuata col calcolatore e di conseguenza anche questa tecnica falsa i risultati e non è possibile confrontare
+i risultati degli algoritmi.
+
+
+\subsubsection{Una terza soluzione}
+Al fine di eliminare totalmente errori dovuti a calcoli effettuati con numeri non sentiti nella somma su calcolatore 
+si è cercato di trovare un modo di generare le taglie degli oggetti per far sì che fossero solo interi, ovvero, una volta fissati 
+$ n $ ed $ m $, sia $ sumobj $ la somma delle taglie degli oggetti:
+\begin{quote}
+	- Si generano $ n $ numeri $ o_i \: \forall i \in \{1, ..., n\} $ in modo che ogni numero sia preso con probabilità
+	uniforme in un intervallo $ [1, M] $.\\
+	- Se $ sumobj $  non è un multiplo di $ m $ allora si calcola il resto della divisione tra $ sumobj $ ed $ m $ e lo 
+	si aggiunge alla taglia di un oggetto scelto a caso, se invece è un multiplo si esegue il prossimo passo direttamente.\\
+	- La taglia dei bins diventa $ sumobj/m $.
+\end{quote}
+In questo modo si lavora solo con numeri interi e gli errori dovuti a numeri non sentiti nella somma con altri sono totalmente
+eliminati, di conseguenza i dati sono corretti ed è possibile confrontare gli algoritmi.
+
+\paragraph{I problemi di questa soluzione}\mbox{}\\
+Anche se sono stati eliminati del tutto gli errori sui calcoli sorge un altro problema, ovvero quello dell'overflow, infatti se le taglie
+degli oggetti sono troppo grandi, o comunque al crescere di $ n $, la somma di questi potrebbe provocare un'overflow, ma questi sono problemi
+presenti anche nelle due soluzioni precedenti al crescere di $ n $, anzi le due precedenti potrebbero portare anche ad underflow, ma è trascurabile per
+la riuscita dell'esperimento in quanto non è una cosa che può essere risolta in generale.
+
+
+\subsubsection{La strategia utilizzata}
+Si è scelto di utilizzare l'ultima soluzione descritta per generare gli oggetti e i bins in quanto non presenta nessun problema ai fini
+dell'esperimento e produce dati corretti, per cui è possibile confrontare i risultati degli algoritmi.
+
+
+\subsection{Raccolta dati}
+
+
+\subsection{Analisi grafica}
+
+
+
+\section{Implementazione}
+
+\subsection{Linguaggio e librerie utilizzate}
+
+
+\subsection{Codice}
+
+
+
+\section{Dati sperimentali e conclusioni}
+
+\subsection{Dati}
+
+
+\subsection{Conclusioni}
