@@ -264,7 +264,7 @@ della funzione obiettivo uguale a $ 0 $:
 
 \noindent
 Anche per questo algoritmo ci sono casi in cui trova la soluzione ottima, una condizione sufficiente affinché questa cosa si realizzi
-è quella di avere $ m $ bins e $ n $ oggetti tale che $ n = 2^k, k \geq 2 $ e $ m = 2^h, h \geq 1, h < k $ e che tutti gli oggetti abbiano taglia uguale,
+è quella di avere $ m $ bins e $ n $ oggetti tale che $ n = 2^k, k \geq 2 $ e $ m = 2^h, 1 \leq h < k $ e che tutti gli oggetti abbiano taglia uguale,
 in particolare $ s(o_i) = c/n \: \forall i \in \{1, ..., n\} $.
 Ad esempio se $ m = 2 $, $ c = 16 $ e $ n = 8 $ allora ogni oggetto ha taglia $ 2 $, l'algoritmo assegnerà gli oggetti in modo
 ottimale, avendo valore della funzione obiettivo pari a $ 0 $.
