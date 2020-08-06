@@ -84,22 +84,23 @@ def get_i_star(number_of_objects, objects, number_of_bins):
 
 
 def display_chart(object_history, bins_history, results):
-    o_history = np.array(object_history)
-    b_history = np.array(bins_history)
     fig, ax = plt.subplots(2, 1, figsize=(16, 9), subplot_kw={"projection": "3d"})
     ax[0].axis("off")
-    row_labels = [f"Bins: {n_bins}, Objects: {n_objects}" for n_bins, n_objects in zip(b_history, o_history)]
-    table = ax[0].table(cellText=[(first, second, lower_bound) for first, second, lower_bound in results], 
-                        rowLabels=row_labels, 
-                        colLabels=("First Algorithm", "Second Algorithm", "Lower Bound"),
-                        cellLoc="center", 
-                        loc="center",
-                        colWidths=[.2] * 3)
-    ax[1].plot(o_history, b_history, np.array(list(map(lambda element: element[0], results))), marker="o", color="red", label="first algorithm")
-    ax[1].plot(o_history, b_history, np.array(list(map(lambda element: element[1], results))), marker="o", color="blue", label="second algorithm")
-    ax[1].plot(o_history, b_history, np.array(list(map(lambda element: element[2], results))), marker="o", color="green", label="lower bound")
-    ax[1].set_ylabel("Value of the execution")
+    row_labels = [f"Bins: {n_bins}, Objects: {n_objects}" for n_bins, n_objects in zip(bins_history, objects_history)]
+    ax[0].table(cellText=[(first, second, lower_bound) for first, second, lower_bound in results], 
+                rowLabels=row_labels, 
+                colLabels=("First Algorithm", "Second Algorithm", "Lower Bound"),
+                cellLoc="center", 
+                loc="center",
+                colWidths=[.2] * 3)
+    ax[1].plot(objects_history, bins_history, list(map(lambda element: element[0], results)), marker="o", color="red", label="first algorithm")
+    ax[1].plot(objects_history, bins_history, list(map(lambda element: element[1], results)), marker="o", color="blue", label="second algorithm")
+    ax[1].plot(objects_history, bins_history, list(map(lambda element: element[2], results)), marker="o", color="green", label="lower bound")
+    
     ax[1].set_xlabel("Number of objects to pack")
+    ax[1].set_ylabel("Number of bins")
+    ax[1].set_zlabel("Value of the execution")
+    
     plt.legend()
     plt.tight_layout()
     plt.show()
