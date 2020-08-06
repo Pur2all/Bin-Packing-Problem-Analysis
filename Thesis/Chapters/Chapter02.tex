@@ -67,7 +67,6 @@ seguente modo per ottenere una soluzione:
     \For{$ i = 1; \: i \leq |O|; \: i = i + 1 $}
         \State $ \text{bin-più-vuoto} \leftarrow $ \Call{extractMax}{$ Q, s() $}
         \State $ \text{bin-più-vuoto} \leftarrow \text{bin-più-vuoto} \cup \{O[i]\} $
-        % \State $ s(\text{bin-più-vuoto}) \leftarrow  s(\text{bin-più-vuoto}) - s(O[i]) $
         \State $ Q \leftarrow Q \cup \{\text{bin-più-vuoto}\} $
     \EndFor
     
