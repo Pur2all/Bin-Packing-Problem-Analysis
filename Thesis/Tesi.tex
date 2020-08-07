@@ -5,11 +5,14 @@
 \usepackage[italian]{babel}
 \usepackage{amsmath, amssymb}
 \usepackage{float}
-\usepackage[autostyle,italian=guillemets,]{csquotes}
+\usepackage[autostyle, italian=guillemets]{csquotes}
 \usepackage[backend=biber, sorting=none]{biblatex}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{listings}
+\usepackage[toc, page]{appendix}
+\usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
 
 
@@ -23,10 +26,41 @@
     urlcolor={blue} %COLORI DEGLI URL
 }
 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
 \restylefloat{table}
+
+\renewcommand\appendixpagename{Appendice}
+\renewcommand\appendixtocname{Appendice}
 
 \setcounter{tocdepth}{5}
 \setcounter{secnumdepth}{3}
+
+\graphicspath{ {./Images/Experiments/} }
 
 \addbibresource{bibliography.bib}
 
@@ -42,6 +76,14 @@
 \chapter{Risultati sperimentali}
 \input{Chapters/Chapter03}
 
-\printbibliography
+\printbibliography[heading=bibintoc]
+
+\begin{appendices}
+	\section*{Codice}
+		\label{sec:Codice}
+		\addcontentsline{toc}{section}{Codice}
+		\lstinputlisting[language=Python]{../Source Code/Bin-Packing-Problem-Analysis.py}
+\end{appendices}
+
 
 \end{document}
