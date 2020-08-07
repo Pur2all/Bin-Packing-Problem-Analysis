@@ -86,6 +86,7 @@ Per la parte di raccolta dati semplicemente si è definito un numero di esperime
 alle istanze generate dal metodo illustrato precedentemente basato sul numero di oggetti e bins relativi all'esperimento. Una volta prodotti questi dati
 essi sono stati riportati in una tabella che mette in corrispondenza i valori delle istanze e degli algoritmi eseguiti su di esse.
 
+
 \subsection{Analisi grafica}
 Una volta prodotti i dati dell'esperimento, al fine di renderne più facile e immediata l'analisi, essi sono stati riportati su un piano tridimensionale 
 dove sull'asse delle $ x $ si trova il numero di oggetti da immagazzinare, sull'asse delle $ y $ il numero di bins, e sull'asse delle $ z $
@@ -105,7 +106,8 @@ scopo.\\
 Le librerie utilizzate all'interno del software sono:
 
 \paragraph{heapq}\mbox{}\\
-Una libreria nativa del linguaggio che permette di utilizzare una lista come uno heap e eseguire i relativi algoritmi classici relativi a uno heap su di essa.\\
+Una libreria nativa del linguaggio che permette di utilizzare una lista come uno heap ed eseguire i classici algoritmi relativi a uno heap su di essa in 
+modo efficiente.\\
 Usata per sfruttare il costo computazionale ridotto di uno heap per determinate operazioni al fine di ottimizzare gli algoritmi che ne fanno uso.
 
 \paragraph{matplotlib}\mbox{}\\
@@ -120,15 +122,19 @@ efficiente, utilizzata anche all'interno di \texttt{matplotlib} per operare effi
 Usata nel software per creare liste di numeri generati casualmente tramite distribuzione uniforme, infatti si è utilizzato in particolare il modulo
 \texttt{random}.
 
-
 \subsection{Codice}
-Per la consultazione del codice si rimanda all'appendice.
-% \lstinputlisting[language=Python]{../Source Code/Bin-Packing-Problem-Analysis.py}
+Per la consultazione del codice si rimanda alla \hyperref[sec:Codice]{\underline{sezione dedicata}} nell'appendice.
 
 
 \section{Dati sperimentali e conclusioni}
+Una volta delineato il metodo da utilizzare per l'esperimento e realizzato il software che permette di eseguirlo vengono prodotti i dati relativi ad esso
+per essere analizzati.
 
 \subsection{Dati}
-
+Di seguito varie immagini raffiguranti gli esiti degli esperimenti basati su istanze generate casualmente con distribuzione uniforme nell'intervallo
+di interi $ [1, 1000] $.
+% \includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per10}
+% \includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per100}
+% \includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per1000}
 
 \subsection{Conclusioni}
