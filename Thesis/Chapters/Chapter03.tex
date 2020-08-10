@@ -46,7 +46,7 @@ Ovvero si è fatto in modo che la somma degli oggetti fosse normalizzata a $ cm 
 di ogni bin e $ m $ il numero di bins.
 
 \paragraph{I problemi di questa soluzione}\mbox{}\\
-Nonostante in questo caso si lavori con numeri più grandi pure questa soluzione come la precedente, anche se di meno, comporta problemi relativi
+Nonostante in questo caso si lavori con numeri più grandi anche questa soluzione comporta problemi relativi
 alle operazioni effettuate tramite calcolatore con valori "problematici" e di conseguenza anche questa tecnica falsa i risultati e non è possibile confrontare
 i risultati degli algoritmi.
 
@@ -71,7 +71,7 @@ eliminati, di conseguenza i dati sono corretti ed è possibile confrontare gli a
 
 \paragraph{I problemi di questa soluzione}\mbox{}\\
 Anche se sono stati eliminati del tutto gli errori sui calcoli sorge un altro problema, ovvero quello dell'overflow, infatti se le taglie
-degli oggetti sono troppo grandi, o comunque al crescere di $ n $, la somma di questi potrebbe provocare un'overflow, ma questi sono problemi
+degli oggetti sono troppo grandi, o comunque al crescere di $ n $, la somma di questi potrebbe provocare un'overflow. Questi problemi sono
 presenti anche nelle due soluzioni precedenti al crescere di $ n $, anzi le due precedenti potrebbero portare anche ad underflow, ma ciò è trascurabile per
 la riuscita dell'esperimento in quanto non è una cosa che può essere risolta in generale sotto queste condizioni.
 
@@ -98,7 +98,7 @@ Per realizzare il software desiderato sono state fatte scelte precise riguardo l
 
 \subsection{Linguaggio e librerie utilizzate}
 Il linguaggio utilizzato per la realizzazione del software è \textit{Python}, le motivazioni di tale scelta sono da cercare nella semplicità di scrittura 
-del codice data dall'alto livello di astrazione e dalla presenza di numerose librerie a supporto dell'utilizzo scientifico del linguaggio, inoltre
+del codice data dall'alto livello di astrazione e dalla presenza di numerose librerie a supporto dell'utilizzo scientifico del linguaggio. Inoltre
 non ci sono particolari caratteristiche dell'esperimento che avrebbero prediletto altri linguaggi, ad esempio se si avesse dovuto utilizzare la concorrenza 
 si sarebbe optato per un linguaggio come \textit{Rust} o uno puramente funzionale come \textit{Haskell}, se il tempo di esecuzione fosse stato cruciale si sarebbe
 optato per un linguaggio a basso livello come \textit{C}, ma poiché non c'è da preoccuparsi di queste questioni \textit{Python} va più che bene per lo
