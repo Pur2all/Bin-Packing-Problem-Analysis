@@ -106,18 +106,18 @@ scopo.\\
 Le librerie utilizzate all'interno del software sono:
 
 \paragraph{heapq}\mbox{}\\
-Una libreria nativa del linguaggio che permette di utilizzare una lista come uno heap ed eseguire i classici algoritmi relativi a uno heap su di essa in 
+Una libreria nativa del linguaggio che permette di utilizzare una lista come uno heap ed eseguire i classici algoritmi relativi ad esso sulla lista in 
 modo efficiente.\\
 Usata per sfruttare il costo computazionale ridotto di uno heap per determinate operazioni al fine di ottimizzare gli algoritmi che ne fanno uso.
 
 \paragraph{matplotlib}\mbox{}\\
-Una libreria di plotting per Python orientata agli oggetti che permette di creare grafici di ogni tipo e visualizzarli interattivamente, esponendo una API molto simile a quella del 
+Una libreria di plotting per Python orientata agli oggetti, che permette di creare grafici di ogni tipo e visualizzarli interattivamente, esponendo una API molto simile a quella del 
 linguaggio \textit{Matlab}.\\
 Usata all'interno del software sviluppato per creare le tabelle e i grafici relativi agli esperimenti, in particolare si sono utilizzati i moduli \texttt{pyplot} 
 e \texttt{Axes3D} da \texttt{mpl\_toolkits.mplot3d}.
 
 \paragraph{numpy}\mbox{}\\
-Libreria di supporto al calcolo matematico per il linguaggio, che espone numerose funzioni matematiche di alto livello al fine di poterle utilizzare in modo
+Libreria di supporto al calcolo scientifico per il linguaggio, che espone numerose funzioni matematiche di alto livello al fine di poterle utilizzare in modo
 efficiente, utilizzata anche all'interno di \texttt{matplotlib} per operare efficientemente con matrici e vettori di grandi dimensioni.\\
 Usata nel software per creare liste di numeri generati casualmente tramite distribuzione uniforme, infatti si è utilizzato in particolare il modulo
 \texttt{random}.
@@ -126,39 +126,67 @@ Usata nel software per creare liste di numeri generati casualmente tramite distr
 Per la consultazione del codice si rimanda alla \hyperref[sec:Codice]{\underline{sezione dedicata}} nell'appendice.
 
 
-\section{Dati sperimentali e conclusioni}
-Una volta delineato il metodo da utilizzare per l'esperimento e realizzato il software che permette di eseguirlo vengono prodotti i dati relativi ad esso
+\section{Dati sperimentali e interpretazione}
+Una volta delineato il metodo da utilizzare per l'esperimento e realizzato il software che permette di eseguirlo sono stati prodotti i dati relativi ad esso
 per essere analizzati.
 
 \subsection{Dati}
 Di seguito varie immagini raffiguranti gli esiti degli esperimenti basati su istanze generate casualmente con distribuzione uniforme negli intervalli specificati.
 \begin{figure}[H]
-	\caption{9 esperimenti con $ n $ = $ 10m $ in $[1, 1000] $ }
+	\caption{9 esperimenti con $ n $ = $ 10m $ in $ [1, 1000] $ }
+	\label{sec:Exp1}
 	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per10}
 \end{figure}
 \begin{figure}[H]
-	\caption{9 esperimenti con $ n $ = $ 100m $ in $[1, 1000] $ }
+	\caption{9 esperimenti con $ n $ = $ 100m $ in $ [1, 1000] $ }
+	\label{sec:Exp2}
 	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per100}
 \end{figure}
 \begin{figure}[H]
-	\caption{Altri 9 esperimenti con $ n $ = $ 100m $ in $[1, 1000] $ }
+	\caption{Altri 9 esperimenti con $ n $ = $ 100m $ in $ [1, 1000] $ }
+	\label{sec:Exp2.2}
 	\includegraphics[scale=0.45, angle=90]{9_exps_1-1000_per100_2}
 \end{figure}
 \begin{figure}[H]
-	\caption{9 esperimenti con $ n $ = $ 1000m $ in $[1, 1000] $ }
+	\caption{9 esperimenti con $ n $ = $ 1000m $ in $ [1, 1000] $ }
+	\label{sec:Exp3}
 	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per1000}
 \end{figure}
 \begin{figure}[H]
-	\caption{5 esperimenti con $ n $ = $ 10m $ progressivamente in $[1, 1000] $ }
+	\caption{Altri 9 esperimenti con $ n $ = $ 1000m $ in $ [1, 1000] $ }
+	\label{sec:Exp3.2}
+	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per1000}
+\end{figure}
+\begin{figure}[H]
+	\caption{5 esperimenti con $ n $ = $ 10m $ progressivamente in $ [1, 1000] $ }
+	\label{sec:Exp4}
 	\includegraphics[scale=0.5, angle=90]{5_exps_1-1000_progressive}
 \end{figure}
 \begin{figure}[H]
-	\caption{9 esperimenti con $ n $ = $ 1000m $ in $[1, 10000] $ }
+	\caption{9 esperimenti con $ n $ = $ 1000m $ in $ [1, 10000] $ }
+	\label{sec:Exp5}
 	\includegraphics[scale=0.45, angle=90]{9_exps_1-10000_per1000}
 \end{figure}
 \begin{figure}[H]
-	\caption{9 esperimenti con $ n $ = $ 1000m $ in $[1, 100000] $ }
+	\caption{9 esperimenti con $ n $ = $ 1000m $ in $ [1, 100000] $ }
+	\label{sec:Exp6}
 	\includegraphics[scale=0.5, angle=90]{9_exps_1-100000_per1000}
 \end{figure}
 
-\subsection{Conclusioni}
+\subsection{Interpretazione}
+Ciò che si nota a primo impatto dai risultati degli esperimenti è che l'algoritmo con euristica LPT, su istanze generate in modo casuale, dà sempre un risultato
+di gran lunga migliore rispetto all'algoritmo con euristica di merging sugli oggetti in ogni caso.\\
+È possibile notare come al crescere del numero di oggetti rispetto al numero di bins, fissato l'intervallo di generazione, l'algoritmo LPT migliora sempre la 
+propria soluzione (visibile analizzando questi esperimenti: \hyperref[sec:Exp1]{\underline{Figura 1}}, \hyperref[sec:Exp2]{\underline{Figura 2}}, 
+\hyperref[sec:Exp3]{\underline{Figura 3}}) arrivando addirittura a disporli perfettamente all'interno dei contenitori senza il minimo spreco o eccesso di spazio. Al
+contrario l'algoritmo di merging ha un comportamento opposto, ovvero peggiora sempre la propria soluzione.\\
+Inoltre si nota come prendendo un intervallo più grande di generazione (\hyperref[sec:Exp5]{\underline{Figura 5}}, \hyperref[sec:Exp6]{\underline{Figura 6}}) 
+l'algoritmo LPT non dispone sempre perfettamente gli oggetti nei contenitori ma dà comunque risultati migliori rispetto a quello di merging.
+
+
+\section{Conclusioni}
+Dopo aver effettuato i vari esperimenti ed analizzato i dati si può concludere dicendo che in generale, se gli oggetti hanno taglie "varie" e quindi l'istanza del problema
+non ha una particolare forma, l'algoritmo LPT dà risultati migliori rispetto a quello di merging. Quindi poiché la complessità temporale asintotica è praticamente
+la stessa si può affermare che conviene utilizzare il primo algoritmo menzionato in quanto ci darà una soluzione nettamente migliore rispetto al secondo.\\
+È comunque da tenere in considerazione la natura dell'istanza, in quanto ce ne potrebbero essere alcune per cui gli algoritmi danno la stessa soluzione, oppure per cui la
+"distanza" tra le due soluzioni non sia così grande come si vede dagli esperimenti, o che addirittura, come visto in precedenza, producano quella ottima.
