@@ -1,4 +1,20 @@
-\documentclass[a4paper]{report}
+\begin{filecontents*}[overwrite, noheader]{\jobname.xmpdata}
+	\Title{Un'analisi sperimentale di algoritmi per Bin Packing}
+	\Author{Francesco Migliaro}
+	\Language{it-IT}
+	\Subject{Nel problema del bin packing, degli oggetti di volume diverso devono essere allocati in un numero finito di contenitori 
+			(bin), ciascuno di una determinata capacità fissa, in modo da ridurre al minimo il numero di bin utilizzati. Il bin packing 
+			ha numerose applicazioni. Per esempio l'inserimento di file con dimensioni specifiche in blocchi di memoria di dimensioni fisse 
+			o la registrazione di tutta la musica di un compositore, dove la lunghezza dei pezzi da registrare (in bytes) è la dimensione 
+			degli oggetti e la capacità del generico bin è la quantità di bytes che può essere memorizzata su un cd audio. Il problema del 
+			bin packing è un noto problema np-hard, per cui è irrealistico pensare che si possano trovare algoritmi di complessità polinomiale 
+			per la sua soluzione. In questa tesi, analizziamo e valutiamo sperimentalmente due algoritmi per un'importante variante del bin 
+			packing, in cui è possibile "riempire" ogni bin anche al disopra della sua capacità. L'obiettivo è di minimizzare la somma dei 
+			valori assoluti delle differenze tra le capacità dei bin e il volume totale del loro contenuto.​}
+	\Keywords{Bin Packing\sep Algoritmi di approssimazione\sep Algoritmi}
+\end{filecontents*}
+
+\documentclass[a4paper, titlepage]{report}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -13,13 +29,17 @@
 \usepackage[cache=false]{minted}
 \usepackage[toc, page]{appendix}
 \usepackage{xcolor}
+\usepackage{tabularx}
 \usepackage{graphicx}
+\usepackage{colorprofiles}
+\usepackage[evenboxes, classica]{topfront}
+\usepackage[a-2b]{pdfx}
 \usepackage[depth=4]{bookmark}
-
 
 \hypersetup{
     pdfpagemode={UseOutlines},
     bookmarksopen,
+    bookmarksnumbered,
     pdfstartview={FitH},
     colorlinks,
     linkcolor={black}, %COLORE DEI RIFERIMENTI AL TESTO
@@ -27,6 +47,8 @@
     urlcolor={blue} %COLORI DEGLI URL
 }
 
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{3}
 
 \usemintedstyle{my_monokai_light}
 
@@ -35,15 +57,39 @@
 \renewcommand\appendixpagename{Appendice}
 \renewcommand\appendixtocname{Appendice}
 
-\setcounter{tocdepth}{5}
-\setcounter{secnumdepth}{3}
-
 \graphicspath{ {./Images/Experiments/} }
 
 \addbibresource{bibliography.bib}
 
 \begin{document}
+
+\begin{frontespizio*}
+	\ateneo{Università degli Studi di Salerno}
+	\logosede{Images/logo_standard.png}
+
+	\StrutturaDidattica{Dipartimento di}
+	\struttura{Informatica}
+	
+	\titolo{Un'analisi sperimentale di algoritmi per Bin Packing}
+	\TesiDiLaurea{Tesi di Laurea Triennale}
+	\Materia{Informatica}
+	\relatore{Ch.mo Prof. Ugo Vaccaro}
+	\candidato{Francesco Migliaro\\ \hfill mat. 0512105109}
+	\annoaccademico{2019-2020}
+\end{frontespizio*}
+
+\pdfbookmark[section]{\contentsname}{toc}
 \tableofcontents
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
 
 \chapter{Bin Packing Problem}
 \input{Chapters/Chapter01}
