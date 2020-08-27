@@ -144,3 +144,4 @@ dmypy.json
 *.lof
 *.lot 
 *.xmpi
+*.xmpdata
