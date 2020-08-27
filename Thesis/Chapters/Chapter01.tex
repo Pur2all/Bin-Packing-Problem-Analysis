@@ -73,12 +73,12 @@ In modo da rendere più chiara la comprensione viene fornito un esempio:
 Questo problema è chiaramente di natura combinatoria, e in particolare appartiene all'insieme dei problemi NP-hard, mentre
 la versione di decisione del problema fa parte dell'insieme dei problemi NP-complete ed è così definita \cite{CaI_NP}:
 \begin{quote}
-	\begin{itemize}
-		\item[Istanza:] Insieme finito $ U $ di oggetti, una taglia $ s(u) \in \mathbb{Z}^+ \: \forall u \in U $, una capacità intera
-						per i bins $ B $ e un intero positivo $ K $.
-		\item[Domanda:] Esiste una partizione di $ U $ in insiemi disgiunti $ U_1, U_2, ..., U_k $ tale che la somma delle taglie degli
-						oggetti in ogni $ U_i $ è $ \leq B $.
-	\end{itemize}
+    \begin{tabularx}{\textwidth}{lp{8.5cm}X}
+    	Istanza: & Insieme finito $ U $ di oggetti, una taglia $ s(u) \in \mathbb{Z}^+ \: \forall u \in U $, una capacità intera
+				   per i bins $ B $ e un intero positivo $ K $. \\
+		Domanda: & Esiste una partizione di $ U $ in insiemi disgiunti $ U_1, U_2, ..., U_k $ tale che la somma delle taglie degli
+				   oggetti in ogni $ U_i $ è $ \leq B $. \\
+    \end{tabularx}
 \end{quote}
 Nello specifico è un problema strongly NP-complete e questo può essere provato tramite una riduzione polinomiale da un altro
 problema strongly NP-complete, ovvero il 3-partition. \\
