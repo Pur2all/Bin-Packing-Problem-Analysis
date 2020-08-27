@@ -141,3 +141,6 @@ dmypy.json
 *.bbl
 *.run.xml
 *-blx.bib
+*.lof
+*.lot 
+*.xmpi
