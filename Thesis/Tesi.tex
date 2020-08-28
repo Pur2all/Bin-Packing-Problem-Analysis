@@ -63,7 +63,7 @@
 
 \begin{document}
 
-\begin{frontespizio*}
+\begin{frontespizio}
 	\ateneo{Università degli Studi di Salerno}
 	\logosede{Images/logo_standard.png}
 
@@ -76,7 +76,7 @@
 	\relatore{Ch.mo Prof. Ugo Vaccaro}
 	\candidato{Francesco Migliaro\\ \hfill mat. 0512105109}
 	\annoaccademico{2019-2020}
-\end{frontespizio*}
+\end{frontespizio}
 
 \pdfbookmark[section]{\contentsname}{toc}
 \tableofcontents
@@ -90,6 +90,12 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Introduzione}
+\chapter*{Introduzione}
+\input{Chapters/Introduction}
 
 \chapter{Bin Packing Problem}
 \input{Chapters/Chapter01}
