@@ -84,8 +84,9 @@ Nello specifico è un problema strongly NP-complete e questo può essere provato
 problema strongly NP-complete, ovvero il 3-partition. \\
 Nonostante ciò comunque è possibile risolvere il problema del bin packing in tempo pseudo-polinomiale per ogni numero di
 bins fissato $ \geq 2 $ \cite{BinPackingFixedSize}, e in tempo polinomiale per
-ogni fissata capacità $ B $ enumerando tutte le possibili $ k^{p(1) + p(2) + ... + p(B)} $ assegnazioni degli oggetti ai
-bins e trovare la più conveniente tramite ricerca esaustiva. \\
+ogni fissata capacità $ B $ enumerando tutte le possibili $ (k+1)^{p(1) + p(2) + ... + p(B)} $ assegnazioni del numero di bins al
+tipo di partizioni numeriche con cui è possibile descrivere il loro riempimento, scartando quelle non coerenti con la soluzione,
+e trovando la più conveniente tramite ricerca esaustiva. \\
 Come conseguenza della classe di complessità di appartenenza del problema è chiaro quindi che bisogna comunque risolverlo
 in un tempo ragionevole, ossia polinomiale, anche nel caso generale, quindi si ricorre ad algoritmi
 di approssimazione adoperando diverse euristiche.
