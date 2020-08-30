@@ -83,7 +83,7 @@ vuoto al momento dell'assegnazione, semplicemente scorrendo la lista di oggetti 
 dall'insieme $ Q $ il bin di taglia (capacità) maggiore, ovvero quello più vuoto, e modificando quindi implicitamente la capacità di quest'ultimo diminuendola
 del peso dell'oggetto da assegnare, per poi rimetterlo in $ Q $. Infine ritorna il valore a cui si è interessati. 
 
-\paragraph{Analisi della complessità dell'algoritmo}\mbox{}\\
+\subsubsection{Analisi della complessità dell'algoritmo}
 L'istruzione al rigo \texttt{2} prende tempo $ O(n \log{}n) $ dove $ n $ è la lunghezza della lista di oggetti, il for delle righe \texttt{4 - 7} viene eseguito $ n $
 volte, l'istruzione del rigo \texttt{5}, se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo, quindi l'operazione di estrazione del 
 massimo ha complessità $ \Theta(m) $ dove $ m $ è la cardinalità di $ Q $ (quindi il numero di bins), le altre istruzioni all'interno del \texttt{for} prendono tempo costante, e 
@@ -92,7 +92,7 @@ ricerca esaustiva che viene fatta $ n $ volte all'interno del for, ma se $ Q $ f
 quella di inserimento in $ Q $ prenderebbe anch'essa tempo $ \Theta(\log{}m) $ ma se ne trae vantaggio perché la complessità del \texttt{for} diventerebbe $ O(n \log{}m) $ che è minore di $ O(nm) $
 e quindi la complessità dell'algoritmo diventerebbe $ O(n \log{}n) $, ovvero dominata dall'istruzione al rigo \texttt{2}.
 
-\paragraph{Esempio di esecuzione}\mbox{}\\
+\subsubsection{Esempio di esecuzione}
 Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rendere più semplice l'esempio questo non rappresenta una perdita di generalità.
 \begin{quote}
 	Sia $ O $ una lista di lunghezza $ n $ contenente i vari oggetti, e $ s() $
@@ -195,7 +195,7 @@ all'insieme $ Q $ procede con l'operazione di merging estraendo dall'insieme $ Q
 avrà come volume la somma dei volumi degli altri due, e inserirlo in $ Q $, questo fin quando non risulta $ n = m $ ($ n $ numero di oggetti e $ m $ numero di bins). 
 Una volta terminata l'operazione di merging si procede con l'assegnazione degli oggetti ai bin in maniera arbitraria ed infine viene ritornato il valore a cui si è interessati.
 
-\paragraph{Analisi della complessità dell'algoritmo}\mbox{}\\
+\subsubsection{Analisi della complessità dell'algoritmo}
 L'istruzione al rigo \texttt{2} prende tempo costante, il while delle righe \texttt{3 - 7} viene eseguito 
 $ n - m $ volte, le istruzioni delle righe \texttt{4} e \texttt{5}, se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo, quindi l'operazione di 
 estrazione del minimo ha complessità $ \Theta(n) $, le altre istruzioni all'interno del \texttt{while} prendono tempo costante, il \texttt{for} delle righe \texttt{8 - 9} viene eseguito 
@@ -205,7 +205,7 @@ estrazione del minimo prenderebbe tempo $ \Theta(\log{}n) $, quella di inserimen
 perché la complessità del \texttt{while} diventerebbe $ O((n - m) \log{}n) $ che è minore di $ O(n(n - m)) $ e quindi la complessità dell'algoritmo diventerebbe proprio questa,
 ovvero dominata dalla ripetizione delle istruzioni all'interno del \texttt{while}.
 
-\paragraph{Esempio di esecuzione}\mbox{}\\
+\subsubsection{Esempio di esecuzione}
 Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rendere più semplice l'esempio questo non rappresenta una perdita di generalità.
 \begin{quote}
 	Sia $ O $ una lista di lunghezza $ n $ contenente i vari oggetti, e $ s() $

@@ -7,13 +7,14 @@ un numero molto più piccolo di contenitori che possono essere estesi se la loro
 di minimizzare lo spazio vuoto e in eccesso totale dei contenitori. \\
 Per questo problema non esiste un algoritmo polinomiale che lo risolve all'ottimo, infatti fa parte della
 classe di problemi NP-hard, di conseguenza bisogna approssimare la soluzione nel miglior modo
-possibile tramite algoritmi che fanno uso di opportune euristiche.
+possibile tramite algoritmi che fanno uso di euristiche.
 
 \phantomsection
 \addcontentsline{toc}{section}{Obiettivo}
 \section*{Obiettivo}
 L'obiettivo della tesi è quello di analizzare sperimentalmente due algoritmi di approssimazione 
-per il problema del Bin Packing con bins estendibili, in modo da vedere qual è il migliore tra i due. \\
+per il problema del Bin Packing con bins estendibili, per trarre in conclusione qual è il migliore tra i due 
+in base alle prestazioni e risultati per il problema in esame. \\
 Tali algoritmi si basano su due euristiche diverse, il primo opera inserendo ogni volta l'oggetto di volume 
 maggiore all'interno del contenitore più vuoto, mentre il secondo unisce gli oggetti di volume minore 
 fin quando il loro numero non corrisponde a quello dei contenitori e li inserisce in modo arbitrario in essi.
@@ -26,9 +27,3 @@ classico, si parla della sua complessità e si introducono alcune sue variazioni
 il problema del Bin Packing con bins estendibili e vengono descritti i due algoritmi che saranno analizzati; infine, all'
 interno del terzo capitolo si discute dell'approccio utilizzato alla sperimentazione, gli strumenti utilizzati e vengono forniti i dati
 da cui sono state fatte le considerazioni finali, anch'esse presenti all'interno di questo capitolo.
-
-\phantomsection
-\addcontentsline{toc}{section}{Conclusioni da trarre}
-\section*{Conclusioni da trarre}
-Le conclusioni che si vogliono trarre dal lavoro svolto riguardano la scelta di usare un determinato
-algoritmo rispetto ad un altro in base alle sue prestazioni e risultati per il problema in esame.
