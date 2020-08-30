@@ -1,0 +1,221 @@
+\renewcommand{\Candidato}{Candidato}
+\makeatletter
+      \def\fr@ntespizio{%
+            \begingroup\par
+                  \oddsidemargin=\dimexpr(\oddsidemargin+\evensidemargin)/2\relax
+                  \evensidemargin \oddsidemargin
+            \null
+            \setcounter{page}{1}%
+            \normalfont
+            \ifclassica
+                  \boolfalse{topTPTlogos}
+                  \thispagestyle{classica}
+                  \ifcsvoid{@ateneo}{\def\@ateneo{Manca il nome dell'ateneo}
+                  }{}
+            \else
+                  \thispagestyle{titlepage}
+            \fi
+            \ifcsvoid{@ateneo}{}{\booltrue{AteneoInHead}}
+            \ifcsvoid{@ateneo}{%
+                  \ifbool{topTPTlogos}
+                  {}{\booltrue{AteneoInHead}\def\@ateneo{Manca il nome dell'ateneo}}%
+            }{%
+                  \booltrue{AteneoInHead}%
+            }
+            
+            \unless\iftopTPTlogos
+                  {\centering \printloghi\par}
+            \fi
+            \vspace*{\stretch{0.1}}
+
+            \ifbool{AteneoInHead}{}{%
+                  {{\centering\LARGE \@ateneo\par}}
+            }
+            \ifcsvoid{@nomeat}{}
+                  {\ifbool{topTPTlogos}{\vspace*{\dimexpr \headsep+2.5ex}}{\vspace*{-3ex}}%
+                  {\centering\@nomeat\par}\vfill}
+
+                  \begin{center}
+                  {\rmfamily\mdseries
+                  \ifdottorato
+                        \large \@phdschool\par\medskip
+                  \else
+                        \ifcsvoid{@faculty}{}{%
+                        \LARGE\ifx\@facnumber\empty\else\@facnumber\space\fi
+                        \@faculty\unskip\xspace\@facname\par\medskip
+                        }
+                  \fi
+                  }%
+                  \ifcsvoid{@corso}{}{{\large
+                        \ifdottorato
+                              \@PhDname\unskip\xspace
+                                    \@corso\ifx\@ciclo\empty\else~--~\@ciclo\fi
+                        \else
+                              \@laureaname\unskip\xspace\@corso
+                        \fi
+                        \par}}
+                  \end{center}
+                  \vspace*{\stretch{0.5}}
+                  \begin{center}
+                        \LARGE
+                        \ifdottorato
+                              \@dissertazione%
+                        \else
+                              \iftriennale
+                                    \@monografia%
+                              \else
+                                    \@TesiDiLaurea%
+                              \fi
+                        \fi
+                        \unless\ifx\empty\@materia
+                              \  \@InName \  \@materia
+                        \fi
+                  \end{center}
+                  \vspace*{\stretch{0}}
+                  \begin{center}
+                        {\huge\bfseries \baselineskip=0.95em plus 1pt
+                              \@titolo \par}
+                  \end{center}
+                  \unless\ifx\@subtitle\empty
+                        \begin{center}%
+                        	\large\textrm{\@subtitle}\par
+                        \end{center}%
+                  \fi
+                  \vspace*{\stretch{1}}
+                  \ifclassica
+                        \ifnum\value{tomo}>\z@
+                              \par\bigskip
+                              \noindent\makebox[\textwidth]{%
+                              \large\textbf{%
+                              \ifcase\c@tomo%
+                                    \or \PrimoTomo%
+                                    \or \SecondoTomo%
+                                    \or \TerzoTomo%[]
+                                    \or \QuartoTomo%
+                                    \else
+                                          \PackageWarning{toptesi}{%
+                                          Counter tomo equals
+                                                \the\c@tomo\MessageBreak
+                                          We never considered a thesis might get
+                                          divided in more than four volumes}%
+                                    \fi}}%
+                        \fi
+                        \vspace{1em}
+                  \fi
+                  \par
+                  \iftriennale
+                        \let\@nomerelatore\empty
+                  \else
+                        \ifdottorato
+                              \edef\@nomerelatore{\@PhDdirector}%
+                        \else
+                              \ifcsvoid{@principaladviser}{}{%
+                                    \def\@nomerelatore{\Relatore}}
+                              \unless\ifclassica
+                                    \ifcsvoid{@secondadviser}{}{%
+                                          \def\@nomerelatore{\Relatori}}%
+                              \fi
+                        \fi
+                  \fi
+                  \ifdottorato
+                        \let\@nomecandidato\empty
+                  \else
+                  \iflanguage{italian}{%
+                        \iffemminile
+                              \def\@nomecandidato{\Candidata}%
+                        \else
+                              \def\@nomecandidato{\Candidato}%
+                        \fi
+                        \ifcsvoid{@secondauthor}{}{%
+                              \iffemminile
+                                    \def\@nomecandidato{\Candidate}%
+                              \else
+                                    \def\@nomecandidato{\Candidati}%
+                              \fi}
+                  }{}%
+            \fi
+                  \iftriennale
+                        \begin{center}%
+                              \large\mdseries\textsc{\@author}
+                        \end{center}%
+                  \else
+                  \def\BoxRelatori{%
+                        \begin{tabular}[t]{l}%
+                        \hbox{\ifclassica\else\large\fi
+                              \textbf{\protect\@nomerelatore}}\\[.6ex]
+                     
+                              \hbox{\large\tabular{@{}l@{}}\@principaladviser\endtabular}%
+                        \ifx\@secondadviser\empty \else
+                              \ifclassica
+                                    \ifx\@thirdadviser\empty
+                                          \ifx\@secondadviser\empty\else
+                                                \\[1.5ex]\textbf{\Correlatore:}%
+                                    \fi
+                              \else
+                                    \\[1.5ex]\textbf{\Correlatori:}%
+                              \fi
+                        \fi
+                        \\[.6ex]\hbox{{\large\textrm{\protect\@secondadviser}}}%
+                        \fi
+                        \ifx\@thirdadviser\empty \else
+                              \\[.6ex] \hbox{{\large\textrm{\protect\@thirdadviser}}}%
+                        \fi
+                        \end{tabular}%
+                  }%
+                  \def\print@secondocandidato{\\\relax
+                              \hbox{\large\tabular{@{}l@{}}\@secondauthor\endtabular}}
+                  \def\print@terzocandidato{\\\relax
+                              \hbox{\large\tabular{@{}l@{}}\@thirdauthor\endtabular}}
+                  \def\BoxCandidati{%
+                  \begin{tabular}[t]{l}%
+                        \hfill\hbox{\unless\ifclassica\large\fi
+                              \textbf{\protect\@nomecandidato}}\\[.6ex]
+                              \hbox{\large\tabular{@{}l@{}}\@author\endtabular}%
+                              \ifcsvoid{@secondauthor}{}{\print@secondocandidato}%
+                              \ifcsvoid{@thirdauthor}{}{\print@terzocandidato}%
+                  \end{tabular}%
+                  }%
+                  \ifdottorato
+                        \begin{center}\large
+                              \textbf{\@author}\\[3em]
+                              {\normalsize
+                              \begin {tabular*}{\hsize}{@{\extracolsep{\fill}}ccc}
+                                    \ifcsvoid{@tutore}{}{\textbf{\Tutore}}
+                              &\relax&
+                                    \ifcsvoid{@principaladviser}{}{\textbf{\@nomerelatore}}
+                              \\
+                                    \ifcsvoid{@tutore}{}{\@tutore}
+                              &\relax&
+                                    \ifcsvoid{@principaladviser}{}{\@principaladviser}
+                              \end{tabular*}
+                              }%
+                        \end{center}
+                  \else
+                  \unless\ifclassica
+                        \unless\ifevenboxes
+                        \begin{flushleft}%
+                              \BoxRelatori
+                        \end{flushleft}\par\vspace*{-1.5\baselineskip}
+                        \begin{flushright}%
+                              \BoxCandidati
+                        \end{flushright}%
+                        \else
+                              \makebox[\textwidth]{\BoxRelatori\hfill\BoxCandidati}
+                        \fi
+                        \else
+                              \noindent
+                              \makebox[\textwidth]{%
+                              \BoxRelatori\hfill\BoxCandidati}\par
+                        \fi
+                  \fi
+            \fi
+            \vspace*{\stretch{0.2}}
+            \ifcsvoid{@tutoreaziendale}{}{%
+            \vfill\vfill
+            {\centering \textbf{\@tutoreaziendalename}\\[.6ex]
+            \@tutoreaziendale\par}}
+                  \par\clearpage
+                  \ifcsvoid{@retrofrontespizio}{}%
+                  {\null\vfill\thispagestyle{empty}\@retrofrontespizio\par\clearpage}%
+            \endgroup}
+\makeatother

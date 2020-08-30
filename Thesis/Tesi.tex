@@ -6,8 +6,8 @@
 			(bin), ciascuno di una determinata capacità fissa, in modo da ridurre al minimo il numero di bin utilizzati. Il bin packing 
 			ha numerose applicazioni. Per esempio l'inserimento di file con dimensioni specifiche in blocchi di memoria di dimensioni fisse 
 			o la registrazione di tutta la musica di un compositore, dove la lunghezza dei pezzi da registrare (in bytes) è la dimensione 
-			degli oggetti e la capacità del generico bin è la quantità di bytes che può essere memorizzata su un cd audio. Il problema del 
-			bin packing è un noto problema np-hard, per cui è irrealistico pensare che si possano trovare algoritmi di complessità polinomiale 
+			degli oggetti e la capacità del generico bin è la quantità di bytes che può essere memorizzata su un CD audio. Il problema del 
+			bin packing è un noto problema NP-hard, per cui è irrealistico pensare che si possano trovare algoritmi di complessità polinomiale 
 			per la sua soluzione. In questa tesi, analizziamo e valutiamo sperimentalmente due algoritmi per un'importante variante del bin 
 			packing, in cui è possibile "riempire" ogni bin anche al disopra della sua capacità. L'obiettivo è di minimizzare la somma dei 
 			valori assoluti delle differenze tra le capacità dei bin e il volume totale del loro contenuto.​}
@@ -33,6 +33,7 @@
 \usepackage{graphicx}
 \usepackage{colorprofiles}
 \usepackage[evenboxes, classica]{topfront}
+\usepackage{titletoc, tocloft}
 \usepackage[a-2b]{pdfx}
 \usepackage[depth=4]{bookmark}
 
@@ -47,8 +48,10 @@
     urlcolor={blue} %COLORI DEGLI URL
 }
 
-\setcounter{tocdepth}{5}
+\setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{3}
+
+\cftsetindents{paragraph}{130pt}{4em}
 
 \usemintedstyle{my_monokai_light}
 
@@ -58,6 +61,8 @@
 \renewcommand\appendixtocname{Appendice}
 
 \graphicspath{ {./Images/Experiments/} }
+
+\input{Styles/My_TOPfront}
 
 \addbibresource{bibliography.bib}
 
@@ -70,16 +75,25 @@
 	\StrutturaDidattica{Dipartimento di}
 	\struttura{Informatica}
 	
+	\corsodilaurea{Informatica}
+	
 	\titolo{Un'analisi sperimentale di algoritmi per Bin Packing}
-	\TesiDiLaurea{Tesi di Laurea Triennale}
 	\Materia{Informatica}
 	\relatore{Ch.mo Prof. Ugo Vaccaro}
-	\candidato{Francesco Migliaro\\ \hfill mat. 0512105109}
+	\candidato{\hfill Francesco Migliaro\\ \hfill Matricola 0512105109}
 	\annoaccademico{2019-2020}
 \end{frontespizio}
 
+\pagenumbering{roman}
+
 \pdfbookmark[section]{\contentsname}{toc}
 \tableofcontents
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Abstract}
+\chapter*{Abstract}
+\input{Chapters/Abstract}
 
 \cleardoublepage
 \phantomsection
@@ -92,6 +106,7 @@
 \listoftables
 
 \cleardoublepage
+\pagenumbering{arabic}
 \phantomsection
 \addcontentsline{toc}{chapter}{Introduzione}
 \chapter*{Introduzione}
