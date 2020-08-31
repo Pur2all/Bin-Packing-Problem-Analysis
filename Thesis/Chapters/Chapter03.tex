@@ -10,7 +10,7 @@ deve essere uguale alla somma delle taglie dei bins.
 
 \subsubsection{Una prima soluzione}
 La prima soluzione sviluppata per fare in modo che gli oggetti e i bins generati rispettassero le condizioni del problema
-è stata quella di scegliere la taglia degli $ m $ bins uguale a $ 1/m $ in modo che la loro somma sia pari a $ 1 $, mentre
+è stata quella di scegliere la taglia degli $ m $ bins uguale a $ 1/m $ in modo che la loro somma fosse pari a $ 1 $, mentre
 per gli oggetti si è proceduto nel seguente modo:
 \begin{quote}
 	\begin{enumerate}
@@ -39,7 +39,7 @@ seguente modo:
 	\begin{enumerate}
 		\item Si generano $ n $ numeri $ x_i \: \forall i \in \{1, ..., n\} $ in modo che ogni numero sia preso con probabilità 
 			  uniforme in un intervallo di interi $ [1, M] $.
-		\item Ogni oggetto $ o_i $ avrà taglia pari a $ \displaystyle\frac{x_i}{\sum_{j=1}^n x_j}cm \: \forall i \in \{1, ..., n\} $. 
+		\item Ogni oggetto $ o_i $ avrà taglia pari a $ \displaystyle\frac{x_i cm}{\sum_{j=1}^n x_j} \: \forall i \in \{1, ..., n\} $. 
 	\end{enumerate}
 \end{quote}
 Ovvero si è fatto in modo che la somma degli oggetti fosse normalizzata a $ cm $ dove $ c $ è la capacità fissata
@@ -60,8 +60,8 @@ $ n $ ed $ m $:
 		\item Si generano $ n $ numeri $ o_i \: \forall i \in \{1, ..., n\} $ in modo che ogni numero sia preso con probabilità
 			  uniforme in un intervallo di interi $ [1, M] $.\\
 			  Sia $ sumobj $ la somma delle taglie degli oggetti.
-		\item Se $ sumobj $  non è un multiplo di $ m $ allora si calcola il resto 
-			  della divisione tra $ sumobj $ ed $ m $ e lo si aggiunge alla taglia di un oggetto scelto a caso, se invece è un multiplo 
+		\item Se $ sumobj $  non è un multiplo di $ m $ allora si calcola il resto della divisione tra $ sumobj $ ed $ m $, lo 
+			  si sottrae ad $ m $ e il risultato di questa operazione lo si aggiunge alla taglia di un oggetto scelto a caso, se invece è un multiplo 
 			  si esegue il prossimo passo direttamente.
 		\item La taglia dei bins diventa $ sumobj/m $.
 	\end{enumerate}
@@ -84,13 +84,13 @@ dell'esperimento e produce dati corretti, per cui è possibile confrontare i ris
 \subsection{Raccolta dati}
 Per la parte di raccolta dati semplicemente si è definito un numero di esperimenti da eseguire e salvato i valori prodotti dagli algoritmi corrispondenti
 alle istanze generate dal metodo illustrato precedentemente basato sul numero di oggetti e bins relativi all'esperimento. Una volta prodotti questi dati
-essi sono stati riportati in una tabella che mette in corrispondenza i valori delle istanze e degli algoritmi eseguiti su di esse.
+essi sono stati riportati in una tabella che mette in corrispondenza i valori delle istanze e dei risultati degli algoritmi eseguiti su di esse.
 
 
 \subsection{Analisi grafica}
 Una volta prodotti i dati dell'esperimento, al fine di renderne più facile e immediata l'analisi, essi sono stati riportati su un piano tridimensionale 
 dove sull'asse delle $ x $ si trova il numero di oggetti da immagazzinare, sull'asse delle $ y $ il numero di bins, e sull'asse delle $ z $
-il risultato degli algoritmi. In questo modo è immediato confrontare i valori delle esecuzioni su una stessa istanza.
+il valore risultato dall'esecuzione degli algoritmi. In questo modo è immediato confrontare i valori delle esecuzioni su una stessa istanza.
 
 
 \section{Aspetti tecnici dell'implementazione}
@@ -112,7 +112,7 @@ Usata per sfruttare il costo computazionale ridotto di uno heap per determinate 
 
 \paragraph{matplotlib}\mbox{}\\
 Una libreria di plotting per Python orientata agli oggetti, che permette di creare grafici di ogni tipo e visualizzarli interattivamente, esponendo una API molto simile a quella del 
-linguaggio \textit{Matlab}.\\
+linguaggio \textit{MATLAB}.\\
 Usata all'interno del software sviluppato per creare le tabelle e i grafici relativi agli esperimenti, in particolare si sono utilizzati i moduli \texttt{pyplot} 
 e \texttt{Axes3D} da \texttt{mpl\_toolkits.mplot3d}.
 
@@ -142,31 +142,37 @@ Di seguito varie immagini raffiguranti gli esiti degli esperimenti basati su ist
 	\label{sec:Exp2}
 	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per100}
 \end{figure}
+\renewcommand{\thefigure}{3.2.2}
 \begin{figure}[H]
 	\caption{Altri 9 esperimenti con $ n $ = $ 100m $ in $ [1, 1000] $ }
 	\label{sec:Exp2.2}
 	\includegraphics[scale=0.45, angle=90]{9_exps_1-1000_per100_2}
 \end{figure}
+\renewcommand{\thefigure}{3.3}
 \begin{figure}[H]
 	\caption{9 esperimenti con $ n $ = $ 1000m $ in $ [1, 1000] $ }
 	\label{sec:Exp3}
 	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per1000}
 \end{figure}
+\renewcommand{\thefigure}{3.3.2}
 \begin{figure}[H]
 	\caption{Altri 9 esperimenti con $ n $ = $ 1000m $ in $ [1, 1000] $ }
 	\label{sec:Exp3.2}
-	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per1000}
+	\includegraphics[scale=0.5, angle=90]{9_exps_1-1000_per1000_2}
 \end{figure}
+\renewcommand{\thefigure}{3.4}
 \begin{figure}[H]
 	\caption{5 esperimenti con $ n $ = $ 10m $ progressivamente in $ [1, 1000] $ }
 	\label{sec:Exp4}
 	\includegraphics[scale=0.5, angle=90]{5_exps_1-1000_progressive}
 \end{figure}
+\renewcommand{\thefigure}{3.5}
 \begin{figure}[H]
 	\caption{9 esperimenti con $ n $ = $ 1000m $ in $ [1, 10000] $ }
 	\label{sec:Exp5}
 	\includegraphics[scale=0.45, angle=90]{9_exps_1-10000_per1000}
 \end{figure}
+\renewcommand{\thefigure}{3.6}
 \begin{figure}[H]
 	\caption{9 esperimenti con $ n $ = $ 1000m $ in $ [1, 100000] $ }
 	\label{sec:Exp6}

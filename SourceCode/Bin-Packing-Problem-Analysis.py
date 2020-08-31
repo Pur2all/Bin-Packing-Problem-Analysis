@@ -5,7 +5,7 @@ from copy import deepcopy
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def bin_pack_lpt(objects, bins, size_of_bins):
+def bin_pack_mbo(objects, bins, size_of_bins):
     sorted_objects = sorted(objects)[::-1]
     bins_heap = deepcopy(bins)
 
@@ -57,14 +57,14 @@ def display_chart(objects_history, bins_history, results):
     ax[0].axis("off")
     row_labels = [f"Bins: {n_bins}, Objects: {n_objects}" for n_bins, n_objects in zip(bins_history, objects_history)]
 
-    ax[0].table(cellText=[(lpt, merging) for lpt, merging in results],
+    ax[0].table(cellText=[(mbo, merging) for mbo, merging in results],
                 rowLabels=row_labels,
-                colLabels=("LPT Algorithm", "Merging Algorithm"),
+                colLabels=("MBO Algorithm", "Merging Algorithm"),
                 cellLoc="center",
                 loc="center",
                 colWidths=[.2] * 3)
     ax[1].plot(objects_history, bins_history, list(map(lambda element: element[0], results)), 
-               linestyle="None", marker="o", color="red", label="LPT Algorithm")
+               linestyle="None", marker="o", color="red", label="MBO Algorithm")
     ax[1].plot(objects_history, bins_history, list(map(lambda element: element[1], results)), 
                linestyle="None", marker="o", color="blue", label="Merging Algorithm")
 
@@ -95,12 +95,12 @@ def main():
         size_of_bins = calculate_size_of_bins(objects, number_of_bins, number_of_objects)
         bins = [0] * number_of_bins
 
-        lpt_algorithm_result = bin_pack_lpt(objects, bins, size_of_bins)
+        mbo_algorithm_result = bin_pack_mbo(objects, bins, size_of_bins)
         merging_algorithm_result = bin_pack_merging(objects, bins, size_of_bins)
 
         objects_history += [number_of_objects]
         bins_history += [number_of_bins]
-        results += [(lpt_algorithm_result, merging_algorithm_result)]
+        results += [(mbo_algorithm_result, merging_algorithm_result)]
 
     display_chart(objects_history, bins_history, results)
 

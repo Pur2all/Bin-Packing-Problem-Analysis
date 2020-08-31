@@ -3,10 +3,10 @@ Spesso ci si può ritrovare a dover risolvere problemi in cui si devono disporre
 di utilizzarne il minor numero possibile, ad esempio se si deve prendere un aereo bisogna organizzare tutte le proprie cose in delle
 valigie da portare con sé, valigie che ovviamente avranno un costo di trasporto, di conseguenza si è interessati ad
 utilizzare il minimo numero di valigie al fine di spendere il meno possibile per i bagagli. Questa è proprio una
-classica applicazione del problema del bin packing, un problema che è più frequente di quanto si immagini.
+classica applicazione del problema del Bin Packing, un problema che è più frequente di quanto si immagini.
 
 \subsection{Formulazione}
-Il problema del bin packing è così formulato:
+Il problema del Bin Packing è così formulato:
 \begin{quote}
 	Dati degli oggetti di volume differente, questi devono essere allocati in un numero finito di
 	contenitori (bin), ciascuno di una determinata capacità fissa, in modo da ridurre al minimo la
@@ -82,7 +82,7 @@ la versione di decisione del problema fa parte dell'insieme dei problemi NP-comp
 \end{quote}
 Nello specifico è un problema strongly NP-complete e questo può essere provato tramite una riduzione polinomiale da un altro
 problema strongly NP-complete, ovvero il 3-partition. \\
-Nonostante ciò comunque è possibile risolvere il problema del bin packing in tempo pseudo-polinomiale per ogni numero di
+Nonostante ciò comunque è possibile risolvere il problema del Bin Packing in tempo pseudo-polinomiale per ogni numero di
 bins fissato $ \geq 2 $ \cite{BinPackingFixedSize}, e in tempo polinomiale per
 ogni fissata capacità $ B $ enumerando tutte le possibili $ (k+1)^{p(1) + p(2) + ... + p(B)} $ assegnazioni del numero di bins al
 tipo di partizioni numeriche con cui è possibile descrivere il loro riempimento e cercando poi tramite ricerca esaustiva l'esistenza di una
@@ -90,13 +90,13 @@ che è coerente con i dati del problema e ne soddisfa le condizioni. \\
 Come conseguenza della classe di complessità di appartenenza del problema è chiaro quindi che bisogna comunque risolverlo
 in un tempo ragionevole, ossia polinomiale, anche nel caso generale, quindi si ricorre ad algoritmi
 di approssimazione adoperando diverse euristiche.
-Esistono anche algoritmi esatti non banali, come l'MTP \cite{MTP} o il Bin Completion \cite{BinCompletion} che sono i due
+Esistono anche algoritmi esatti non banali, come l'MTP \cite{MTP} e il Bin Completion \cite{BinCompletion} che sono i due
 algoritmi esatti più efficienti per il problema trovati fin'ora.
 
 
 \section{Variazioni e applicazioni}
 Ci sono diverse variazioni di questo problema, ognuna con varie applicazioni, tra le più famose troviamo quella
-del bin packing a più dimensioni, il packing by weight e il VM packing. Ovviamente ne esistono molte altre ma di seguito 
+del Bin Packing a più dimensioni, il packing by weight e il VM packing. Ovviamente ne esistono molte altre ma di seguito 
 verranno descritte quelle precedentemente elencate per dare un'idea della ricorrenza di questo problema, nel prossimo 
 capitolo si parlerà della variante con bins estendibili nel dettaglio.
 
@@ -105,7 +105,7 @@ Questa variante del problema classico occorre ogni volta che bisogna immagazzina
 loro volume ma in base alle loro misure in relazione alle dimensioni considerate nel problema. Ad esempio, se si vogliono
 riempire dei container con oggetti da spedire e ogni container ha un costo per essere spedito, al fine di minimizzare il costo di spedizione si vuole fare in modo
 che vengano usati meno container possibili. Questa è una classica applicazione di 3-dimensional packing, dove appunto si vuole
-minimizzare il numero di container utilizzati e assegnare gli oggetti ai container in base alle loro dimensioni, quali larghezza
+minimizzare il numero di container utilizzati e assegnare gli oggetti ai container in base alle loro dimensioni, quali larghezza,
 lunghezza ed altezza.
 
 \subsection{Packing by weight}

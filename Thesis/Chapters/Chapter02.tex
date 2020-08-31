@@ -4,11 +4,10 @@ del bilanciamento del carico, ovvero ridurre il carico di lavoro per le risorse 
 non è altro che una variante del problema del bin packing di cui segue la formulazione.
 
 \subsection{Formulazione}
-Questa versione del Bin Packing Problem è una variante del problema precedentemente illustrato nel primo capitolo, nella quale abbiamo un numero
-fissato di bins, un numero fissato di oggetti molto maggiore di quello dei bins e la capacità di ogni singolo bin può essere ecceduta.
-Inoltre la somma dei volumi dei vari oggetti è pari alla somma delle capacità dei vari bins.
-L'obiettivo è quello di minimizzare la quantità data dalla somma dei valori assoluti delle differenze tra la capacità del bin e la somma del
-volume dei vari oggetti che esso contiene. \\
+In questa versione del Bin Packing Problem abbiamo un numero fissato di bins, un numero fissato di oggetti molto maggiore di 
+quello dei bins e la capacità di ogni singolo bin può essere ecceduta. Inoltre la somma dei volumi dei vari oggetti è pari alla 
+somma delle capacità dei vari bins. L'obiettivo è quello di minimizzare la quantità data dalla somma dei valori assoluti delle 
+differenze tra le capacità del bin e la somma del volume dei vari oggetti che essi contengono. \\
 Formalmente:
 \begin{quote}
 	Dati $ m $ bins $ \{B_1, ..., B_m\} $ con capacità $ c $ uguale per tutti e $ n $ oggetti $ \{o_1, ..., o_n\} $ con $ n >> m $ e di volume
@@ -60,8 +59,8 @@ seguente modo per ottenere una soluzione:
 \begin{algorithm}[H]
 \begin{algorithmic}[1]
 
-\Function{binPackLPT}{$ B , O , s() $}
-    \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente $
+\Function{binPackMBO}{$ B , O , s() $}
+    \State $ Ordina \: gli \: oggetti \: in \: modo \: non \: decrescente \: in \: base \: al \: volume $
     \State $ Q = B $
 
     \For{$ i = 1; \: i \leq |O|; \: i = i + 1 $}
@@ -81,16 +80,17 @@ L'algoritmo prende in input l'insieme di bins $ B $, la lista di oggetti $ O $ e
 non decrescente, utilizzando il loro volume come metro comparativo, procede con l'assegnazione degli oggetti ai bins in base a quale sia quello più
 vuoto al momento dell'assegnazione, semplicemente scorrendo la lista di oggetti da sinistra a destra, quindi dal più voluminoso al meno voluminoso, ed estraendo
 dall'insieme $ Q $ il bin di taglia (capacità) maggiore, ovvero quello più vuoto, e modificando quindi implicitamente la capacità di quest'ultimo diminuendola
-del peso dell'oggetto da assegnare, per poi rimetterlo in $ Q $. Infine ritorna il valore a cui si è interessati. 
+del peso dell'oggetto assegnatogli, per poi rimetterlo in $ Q $. Infine ritorna il valore a cui si è interessati. 
 
 \subsubsection{Analisi della complessità dell'algoritmo}
 L'istruzione al rigo \texttt{2} prende tempo $ O(n \log{}n) $ dove $ n $ è la lunghezza della lista di oggetti, il for delle righe \texttt{4 - 7} viene eseguito $ n $
 volte, l'istruzione del rigo \texttt{5}, se l'insieme $ Q $ è un semplice insieme la ricerca deve essere effettuata in modo esaustivo, quindi l'operazione di estrazione del 
 massimo ha complessità $ \Theta(m) $ dove $ m $ è la cardinalità di $ Q $ (quindi il numero di bins), le altre istruzioni all'interno del \texttt{for} prendono tempo costante, e 
-l'espressione nel \texttt{return} alla fine prende tempo $ \Theta(m) $. Quindi la complessità dell'algoritmo in questo caso è $ O(nm) $ (se $ m \geq \log{}n $) per via della 
+l'espressione nel \texttt{return} alla fine prende tempo $ \Theta(m) $. Quindi la complessità dell'algoritmo in questo caso è $ O(nm) $ (se $ m > \log{}n $) per via della 
 ricerca esaustiva che viene fatta $ n $ volte all'interno del for, ma se $ Q $ fosse uno heap l'operazione di estrazione del massimo prenderebbe tempo $ \Theta(\log{}m) $, 
 quella di inserimento in $ Q $ prenderebbe anch'essa tempo $ \Theta(\log{}m) $ ma se ne trae vantaggio perché la complessità del \texttt{for} diventerebbe $ O(n \log{}m) $ che è minore di $ O(nm) $
-e quindi la complessità dell'algoritmo diventerebbe $ O(n \log{}n) $, ovvero dominata dall'istruzione al rigo \texttt{2}.
+e quindi la complessità dell'algoritmo diventerebbe $ O(n \log{}n) $, ovvero dominata dall'istruzione al rigo \texttt{2}. L'algoritmo sarà quindi implementato usando uno heap
+come struttura per $ Q $.
 
 \subsubsection{Esempio di esecuzione}
 Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rendere più semplice l'esempio questo non rappresenta una perdita di generalità.
@@ -164,7 +164,7 @@ fornita dall'algoritmo avrà valore $ 0 $ che inoltre sarà anche quella ottima.
 \subsection{Algoritmo con euristica merging sugli oggetti}
 Questo secondo algoritmo utilizza un'euristica di merging sugli oggetti che si basa sull'idea di rendere il numero di oggetti e di
 bins uguale per poi assegnarne ognuno in modo arbitrario a un bin, per avere che i numeri di oggetti e di bins coincidano fonde insieme gli oggetti
-con volume minore in modo da crearne uno nuovo il cui volume è la somma di quelli che lo compongono.\\
+con volume minimo in modo da crearne uno nuovo il cui volume è la somma di quelli che lo compongono.\\
 Per avere una soluzione quindi si può procedere nel seguente modo:
 \begin{algorithm}[H]
 \begin{algorithmic}[1]
@@ -191,7 +191,7 @@ Per avere una soluzione quindi si può procedere nel seguente modo:
 
 \noindent
 L'algoritmo prende in input l'insieme di bins $ B $, la lista di oggetti $ O $ e la funzione taglia $ s() $. Dopo aver assegnato gli oggetti della lista $ O $
-all'insieme $ Q $ procede con l'operazione di merging estraendo dall'insieme $ Q $ i due oggetti con volume minore per poi unirli creando un nuovo oggetto, che
+all'insieme $ Q $ procede con l'operazione di merging estraendo dall'insieme $ Q $ i due oggetti con volume minimo per poi unirli creando un nuovo oggetto, che
 avrà come volume la somma dei volumi degli altri due, e inserirlo in $ Q $, questo fin quando non risulta $ n = m $ ($ n $ numero di oggetti e $ m $ numero di bins). 
 Una volta terminata l'operazione di merging si procede con l'assegnazione degli oggetti ai bin in maniera arbitraria ed infine viene ritornato il valore a cui si è interessati.
 
@@ -203,7 +203,7 @@ $ m $ volte e l'istruzione al suo interno prende tempo costante, infine l'espres
 in questo caso è $ O(n(n - m)) $ per via della ricerca esaustiva che viene fatta $ n - m $ volte all'interno del \texttt{while}, ma se $ Q $ fosse uno heap l'operazione di 
 estrazione del minimo prenderebbe tempo $ \Theta(\log{}n) $, quella di inserimento in $ Q $ prenderebbe anch'essa tempo $ \Theta(\log{}n) $ ma se ne trae vantaggio
 perché la complessità del \texttt{while} diventerebbe $ O((n - m) \log{}n) $ che è minore di $ O(n(n - m)) $ e quindi la complessità dell'algoritmo diventerebbe proprio questa,
-ovvero dominata dalla ripetizione delle istruzioni all'interno del \texttt{while}.
+ovvero dominata dalla ripetizione delle istruzioni all'interno del \texttt{while}. L'algoritmo sarà quindi implementato usando uno heap come struttura per $ Q $.
 
 \subsubsection{Esempio di esecuzione}
 Anche se non verrà rispettata la condizione per cui $ n >> m $ al fine di rendere più semplice l'esempio questo non rappresenta una perdita di generalità.
@@ -264,6 +264,6 @@ della funzione obiettivo uguale a $ 0 $:
 \noindent
 Anche per questo algoritmo ci sono casi in cui trova la soluzione ottima, una condizione sufficiente affinché questa cosa si realizzi
 è quella di avere $ m $ bins e $ n $ oggetti tale che $ n = 2^k, k \geq 2 $ e $ m = 2^h, 1 \leq h < k $ e che tutti gli oggetti abbiano taglia uguale,
-in particolare $ s(o_i) = c/n \: \forall i \in \{1, ..., n\} $.
+in particolare $ s(o_i) = cm/n \: \forall i \in \{1, ..., n\} $.
 Ad esempio se $ m = 2 $, $ c = 16 $ e $ n = 8 $ allora ogni oggetto ha taglia $ 2 $, l'algoritmo assegnerà gli oggetti in modo
 ottimale, avendo valore della funzione obiettivo pari a $ 0 $.
