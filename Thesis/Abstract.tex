@@ -1,0 +1,41 @@
+\begin{filecontents*}[overwrite, noheader]{\jobname.xmpdata}
+	\Title{Abstract - Un'analisi sperimentale di algoritmi per Bin Packing}
+	\Author{Francesco Migliaro}
+	\Language{it-IT}​
+	\Keywords{Bin Packing\sep Algoritmi di approssimazione\sep Algoritmi}
+\end{filecontents*}
+
+\documentclass[a4paper, titlepage]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[backend=biber, sorting=none]{biblatex}
+\usepackage{graphicx}
+\usepackage[evenboxes, classica]{topfront}
+\usepackage[a-2b]{pdfx}
+
+\input{Styles/My_TOPfront}
+
+\begin{document}
+
+\begin{frontespizio}
+	\ateneo{Università degli Studi di Salerno}
+	\logosede{Images/logo_standard.png}
+
+	\StrutturaDidattica{Dipartimento di}
+	\struttura{Informatica}
+	
+	\corsodilaurea{Informatica}
+	
+	\titolo{Un'analisi sperimentale di algoritmi per Bin Packing}
+	\Materia{Informatica}
+	\relatore{Ch.mo Prof. Ugo Vaccaro}
+	\candidato{\hfill Francesco Migliaro\\ \hfill Matricola 0512105109}
+	\annoaccademico{2019-2020}
+\end{frontespizio}
+
+\chapter*{Abstract}
+\input{Chapters/Abstract}
+
+\end{document}
