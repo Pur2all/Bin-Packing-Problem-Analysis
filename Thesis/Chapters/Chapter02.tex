@@ -1,7 +1,7 @@
 \section{Il problema}
 Nell'ambito dell'informatica, precisamente quando si parla di sistemi distribuiti e concorrenza, nasce il problema
 del bilanciamento del carico, ovvero ridurre il carico di lavoro per le risorse distribuendolo tra le altre disponibili, questo 
-non è altro che una variante del problema del bin packing di cui segue la formulazione.
+non è altro che una variante del problema del Bin Packing di cui segue la formulazione.
 
 \subsection{Formulazione}
 In questa versione del Bin Packing Problem abbiamo un numero fissato di bins, un numero fissato di oggetti molto maggiore di 
@@ -46,15 +46,15 @@ Una possibile formulazione come un problema di programmazione lineare intera è 
 
 
 \section{Due possibili algoritmi}
-Di seguito verranno illustrati due algoritmi di approssimazione che risolvono il problema del bin packing con bins estendibili 
+Di seguito verranno illustrati due algoritmi di approssimazione che risolvono il problema del Bin Packing con bins estendibili 
 dei quali verrà analizzato il comportamento da un punto di vista sperimentale nel prossimo capitolo.
 
 \subsection{Algoritmo con euristica LPT}
 Il primo algoritmo utilizza un'euristica nota per i problemi di scheduling multiprocessore, l'euristica Longest Processing Time, ovvero
 quella secondo cui si assegnano i job alle risorse in base al loro tempo di esecuzione, precisamente vengono assegnati in ordine non decrescente di 
 tempo di esecuzione alla risorsa più "libera" al fine di minimizzare il \textit{makespan}, ovvero il massimo tempo di utilizzo totale di una risorsa tra le varie.
-Il problema dello scheduling multiprocessore è molto simile, si potrebbe dire equivalente, a questa variante del bin packing. \\
-In questo caso, poiché il problema non è di scheduling ma di bin packing, potremmo chiamare l'euristica Most Big Object e quindi procedere nel
+Il problema dello scheduling multiprocessore è molto simile, si potrebbe dire equivalente, a questa variante del Bin Packing. \\
+In questo caso, poiché il problema non è di scheduling ma di Bin Packing, potremmo chiamare l'euristica Most Big Object e quindi procedere nel
 seguente modo per ottenere una soluzione:
 \begin{algorithm}[H]
 \begin{algorithmic}[1]
